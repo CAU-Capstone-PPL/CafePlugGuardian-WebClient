@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:webclient/models/plug_detail_model.dart';
 import 'package:webclient/services/api_test.dart';
 import 'package:webclient/style.dart';
+import 'package:webclient/widgets/page_entry_button_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   final String plugId;
@@ -23,16 +24,19 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.background,
       appBar: AppBar(
         title: const HeadingText(
-          content: 'CafeNickName에 오신걸 환영합니다!',
+          content: 'NickName님',
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Center(
+                child: PageEntryButton(content: '사용법을 읽어주세요!', onTap: () {})),
             FutureBuilder(
               future: plug,
               builder: (context, snapshot) {
@@ -126,7 +130,63 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Button(
+                  content: '전력량 충전',
+                  onTap: () {},
+                ),
+                Button(
+                  content: '사용 종료',
+                  onTap: () {},
+                ),
+              ],
+            ),
+            PageEntryButton(content: '전원이 Off가 되었다면? 여길 클릭!', onTap: () {}),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class Button extends StatelessWidget {
+  final String content;
+  final void Function() onTap;
+  const Button({
+    super.key,
+    required this.content,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Container(
+          alignment: Alignment.center,
+          width: 150,
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColor.text, width: 1.5),
+            borderRadius: BorderRadius.circular(10),
+            color: AppColor.background,
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 2,
+                offset: const Offset(5, 5),
+                color: Colors.black.withOpacity(0.3),
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: BoldText(
+              content: content,
+            ),
+          ),
         ),
       ),
     );

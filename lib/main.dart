@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:webclient/screens/alert_screen.dart';
+import 'package:webclient/screens/help_screen.dart';
 import 'package:webclient/screens/home_screen.dart';
+import 'package:webclient/screens/login_page.dart';
+import 'package:webclient/screens/pin_input_screen.dart';
 import 'package:webclient/style.dart';
 
 void main() {
@@ -24,6 +28,10 @@ class MyApp extends StatelessWidget {
         '/': (context) => const HomeScreen(
               plugId: '1',
             ),
+        '/pinInput': (context) => const PinInput(),
+        '/login': (context) => const Login(),
+        '/alert': (context) => const Alert(),
+        '/help': (context) => const Help(),
       },
     );
   }

@@ -36,7 +36,11 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-                child: PageEntryButton(content: '사용법을 읽어주세요!', onTap: () {})),
+                child: PageEntryButton(
+                    content: '사용법을 읽어주세요!',
+                    onTap: () {
+                      Navigator.pushNamed(context, '/help');
+                    })),
             FutureBuilder(
               future: plug,
               builder: (context, snapshot) {
@@ -51,7 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 10,
                         ),
                         Container(
-                          width: 400,
                           height: 300,
                           decoration: BoxDecoration(
                             border:
@@ -135,15 +138,23 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Button(
                   content: '전력량 충전',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, '/pinInput');
+                  },
                 ),
                 Button(
                   content: '사용 종료',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+                  },
                 ),
               ],
             ),
-            PageEntryButton(content: '전원이 Off가 되었다면? 여길 클릭!', onTap: () {}),
+            PageEntryButton(
+                content: '전원이 Off가 되었다면? 여길 클릭!',
+                onTap: () {
+                  Navigator.pushNamed(context, '/alert');
+                }),
           ],
         ),
       ),

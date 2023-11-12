@@ -21,7 +21,9 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const HomeScreen(),
+        '/': (context) => const HomeScreen(
+              plugId: '1',
+            ),
       },
     );
   }

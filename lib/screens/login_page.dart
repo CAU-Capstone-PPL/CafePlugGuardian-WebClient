@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:webclient/screens/home_screen.dart';
 import 'package:webclient/style.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -25,6 +26,17 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Image(
+              image: AssetImage('assets/smartPlug.png'),
+              width: 200,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const HeadingText(content: 'Cafe Plug Guardian'),
+            const SizedBox(
+              height: 20,
+            ),
             TextField(
               controller: _userIdController,
               decoration: const InputDecoration(
@@ -44,25 +56,59 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             const SizedBox(height: 16.0),
-            ElevatedButton(
+            Button(
+              content: 'Login',
               onPressed: () {
-                String userId = _userIdController.text;
-                String password = _passwordController.text;
-                print('Username: $userId\nPassword: $password');
                 Navigator.pushNamed(context, '/pinInput');
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColor.main,
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-              ),
-              child: const Text(
-                'Login',
-                style: TextStyle(fontSize: 16.0),
-              ),
             ),
+            const SizedBox(
+              height: 20,
+            ),
+            OutlinedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/pinInput');
+                },
+                style: OutlinedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                child: const BoldText(
+                  content: '비회원으로 이용할래요',
+                ))
           ],
         ),
       ),
     );
+  }
+}
+
+class Button extends StatelessWidget {
+  final String content;
+  final void Function() onPressed;
+  const Button({
+    super.key,
+    required this.content,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColor.main,
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          elevation: 5.0,
+          minimumSize: const Size(150, 50),
+        ),
+        child: Text(
+          content,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ));
   }
 }

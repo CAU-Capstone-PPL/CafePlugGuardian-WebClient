@@ -26,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: AppColor.background,
       appBar: AppBar(
+        backgroundColor: AppColor.background,
         title: const HeadingText(
           content: 'NickName님',
         ),
@@ -33,12 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const HeadingText(content: 'Nickname님'),
-            const SizedBox(
-              height: 10,
-            ),
             Center(
                 child: PageEntryButton(
                     content: '사용법을 읽어주세요!',

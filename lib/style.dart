@@ -56,7 +56,7 @@ class HeadingText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       content,
-      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:webclient/models/plug_detail_model.dart';
 import 'package:webclient/services/api_test.dart';
 import 'package:webclient/style.dart';
+import 'package:webclient/widgets/custom_button_widget.dart';
 import 'package:webclient/widgets/page_entry_button_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -137,17 +138,17 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Button(
-                  content: '전력량 충전',
-                  onTap: () {
+                CustomButton(
+                  content: '충전하러 가기',
+                  onPressed: () {
                     Navigator.pushNamed(context, '/pinInput');
                   },
                 ),
-                Button(
-                  content: '사용 종료',
-                  onTap: () {
+                CustomButton(
+                  content: '사용 종료하기',
+                  onPressed: () {
                     Navigator.pushNamedAndRemoveUntil(
                         context, '/', (route) => false);
                   },

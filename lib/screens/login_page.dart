@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:webclient/screens/home_screen.dart';
 import 'package:webclient/style.dart';
+import 'package:webclient/widgets/custom_button_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -56,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             const SizedBox(height: 16.0),
-            Button(
+            CustomButton(
               content: 'Login',
               onPressed: () {
                 Navigator.pushNamed(context, '/pinInput');
@@ -81,34 +82,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-}
-
-class Button extends StatelessWidget {
-  final String content;
-  final void Function() onPressed;
-  const Button({
-    super.key,
-    required this.content,
-    required this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColor.main,
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          elevation: 5.0,
-          minimumSize: const Size(150, 50),
-        ),
-        child: Text(
-          content,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ));
   }
 }

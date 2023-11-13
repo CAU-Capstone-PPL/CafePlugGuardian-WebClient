@@ -35,6 +35,10 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const HeadingText(content: 'Nickname님'),
+            const SizedBox(
+              height: 10,
+            ),
             Center(
                 child: PageEntryButton(
                     content: '사용법을 읽어주세요!',
@@ -50,10 +54,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const HeadingText(content: '플러그 정보'),
-                        const SizedBox(
-                          height: 10,
-                        ),
                         Container(
                           height: 300,
                           decoration: BoxDecoration(
@@ -133,6 +133,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             ),
+            PageEntryButton(
+              content: '전원이 Off가 되었다면? 여길 클릭!',
+              onTap: () {
+                Navigator.pushNamed(context, '/alert');
+              },
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -145,16 +151,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 Button(
                   content: '사용 종료',
                   onTap: () {
-                    Navigator.of(context).popUntil((route) => route.isFirst);
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/', (route) => false);
                   },
                 ),
               ],
             ),
-            PageEntryButton(
-                content: '전원이 Off가 되었다면? 여길 클릭!',
-                onTap: () {
-                  Navigator.pushNamed(context, '/alert');
-                }),
           ],
         ),
       ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:webclient/style.dart';
 
-class Help extends StatelessWidget {
-  const Help({super.key});
+class HelpScreen extends StatelessWidget {
+  const HelpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

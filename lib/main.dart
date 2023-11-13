@@ -25,13 +25,13 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const HomeScreen(
+        '/': (context) => const LoginScreen(),
+        '/home': (context) => const HomeScreen(
               plugId: '1',
             ),
-        '/pinInput': (context) => const PinInput(),
-        '/login': (context) => const Login(),
-        '/alert': (context) => const Alert(),
-        '/help': (context) => const Help(),
+        '/pinInput': (context) => const PinInputScreen(),
+        '/alert': (context) => const AlertScreen(),
+        '/help': (context) => const HelpScreen(),
       },
     );
   }

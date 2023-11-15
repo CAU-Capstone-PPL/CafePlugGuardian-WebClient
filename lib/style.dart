@@ -60,3 +60,17 @@ class HeadingText extends StatelessWidget {
     );
   }
 }
+
+class AppBarText extends StatelessWidget {
+  final String content;
+  const AppBarText({super.key, required this.content});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      content,
+      style: const TextStyle(
+          fontSize: 24, fontWeight: FontWeight.bold, color: AppColor.text),
+    );
+  }
+}

@@ -26,7 +26,7 @@ class _AlertScreenState extends State<AlertScreen> {
       backgroundColor: AppColor.background,
       appBar: AppBar(
         title: const AppBarText(
-          content: '플러그 보호 알람 리스트',
+          content: '플러그 보호 알람',
         ),
         backgroundColor: AppColor.background,
       ),
@@ -39,13 +39,14 @@ class _AlertScreenState extends State<AlertScreen> {
               return ListView.separated(
                 itemCount: snapshot.data!.length,
                 separatorBuilder: (context, index) =>
-                    const SizedBox(height: 10), // 예시로 간격을 10으로 설정
+                    const SizedBox(height: 10),
                 itemBuilder: (context, index) {
                   var alert = snapshot.data![index];
                   return Alert(
                     plugId: alert.plugId,
                     plugName: alert.plugName,
                     blockingTime: alert.blockingTime,
+                    check: alert.check,
                   );
                 },
               );

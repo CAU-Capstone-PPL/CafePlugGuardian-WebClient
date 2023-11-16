@@ -8,6 +8,19 @@ class AppColor extends Color {
   static const text = Color(0xFF282828);
 }
 
+class CaptionText extends StatelessWidget {
+  final String content;
+  const CaptionText({super.key, required this.content});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      content,
+      style: const TextStyle(fontSize: 12, color: AppColor.text),
+    );
+  }
+}
+
 class BoldText extends StatelessWidget {
   final String content;
   const BoldText({super.key, required this.content});

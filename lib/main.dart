@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const LoginScreen(),
         '/home': (context) => const HomeScreen(
-              plugId: '1',
+              plugId: 1,
             ),
         '/pinInput': (context) => const PinInputScreen(),
         '/alert': (context) => const AlertScreen(),

@@ -4,9 +4,10 @@ import 'package:webclient/services/api_test.dart';
 import 'package:webclient/style.dart';
 import 'package:webclient/widgets/custom_button_widget.dart';
 import 'package:webclient/widgets/page_entry_button_widget.dart';
+import 'package:webclient/widgets/plug_power_info.dart';
 
 class HomeScreen extends StatefulWidget {
-  final String plugId;
+  final int plugId;
   const HomeScreen({super.key, required this.plugId});
 
   @override
@@ -53,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          height: 300,
+                          height: 350,
                           decoration: BoxDecoration(
                             border:
                                 Border.all(color: AppColor.text, width: 1.5),
@@ -71,6 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   NormalText(
                                       content:
@@ -87,38 +89,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  Text(
-                                    snapshot.data!.plugDescription,
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                    ),
+                                  CaptionText(
+                                    content: snapshot.data!.plugDescription,
                                   ),
                                 ],
                               ),
-                              Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  const NormalText(content: '누적 전력소모량'),
-                                  TitleText(
-                                      content: '${snapshot.data!.usedPower} W'),
-                                  const NormalText(content: '할당된 전력량'),
-                                  TitleText(
-                                      content:
-                                          '${snapshot.data!.assignPower} W'),
-                                  const NormalText(content: '현재 전력 소모량'),
-                                  TitleText(
-                                      content:
-                                          '${snapshot.data!.realTimePower} W'),
-                                  const NormalText(content: '플러그 사용 시작 시각'),
-                                  TitleText(content: snapshot.data!.startTime),
-                                  const NormalText(content: '플러그 사용 시간'),
-                                  TitleText(
-                                      content:
-                                          '${snapshot.data!.runningTime} h'),
-                                ],
-                              ),
+                              PlugPowerInfo(
+                                  assignPower: snapshot.data!.assignPower,
+                                  usedPower: snapshot.data!.usedPower,
+                                  realTimePower: snapshot.data!.realTimePower,
+                                  startTime: snapshot.data!.startTime,
+                                  runningTime: snapshot.data!.runningTime),
                             ],
                           ),
                         ),
@@ -156,48 +137,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class Button extends StatelessWidget {
-  final String content;
-  final void Function() onTap;
-  const Button({
-    super.key,
-    required this.content,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Container(
-          alignment: Alignment.center,
-          width: 150,
-          decoration: BoxDecoration(
-            border: Border.all(color: AppColor.text, width: 1.5),
-            borderRadius: BorderRadius.circular(10),
-            color: AppColor.background,
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 2,
-                offset: const Offset(5, 5),
-                color: Colors.black.withOpacity(0.3),
-              ),
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: BoldText(
-              content: content,
-            ),
-          ),
         ),
       ),
     );

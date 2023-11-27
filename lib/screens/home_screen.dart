@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:webclient/models/plug_detail_model.dart';
+import 'package:webclient/provider/user_provider.dart';
 import 'package:webclient/services/api_test.dart';
 import 'package:webclient/style.dart';
 import 'package:webclient/widgets/custom_button_widget.dart';
@@ -29,8 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: AppColor.background,
       appBar: AppBar(
         backgroundColor: AppColor.background,
-        title: const HeadingText(
-          content: 'NickName님',
+        title: AppBarText(
+          content: context.read<UserProvider>().user?.userName ?? '아무개씨',
         ),
       ),
       body: Padding(
@@ -130,6 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 CustomButton(
                   content: '사용 종료하기',
                   onPressed: () {
+                    context.read<UserProvider>().logout();
                     Navigator.pushNamedAndRemoveUntil(
                         context, '/', (route) => false);
                   },

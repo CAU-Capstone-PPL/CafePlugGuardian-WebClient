@@ -53,6 +53,7 @@ class _PinInputScreenState extends State<PinInputScreen> {
     return Scaffold(
       backgroundColor: AppColor.background,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: AppColor.background,
         title: const HeadingText(
           content: '핀 번호를 입력하세요',

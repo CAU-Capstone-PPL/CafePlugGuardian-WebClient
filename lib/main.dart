@@ -9,6 +9,7 @@ import 'package:webclient/screens/home_screen.dart';
 import 'package:webclient/screens/login_page.dart';
 import 'package:webclient/screens/maileage_screen.dart';
 import 'package:webclient/screens/pin_input_screen.dart';
+import 'package:webclient/screens/shop_screen.dart';
 import 'package:webclient/screens/signup_screen.dart';
 import 'package:webclient/style.dart';
 
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
           '/help': (context) => const HelpScreen(),
           '/maileage': (context) => const MaileageScreen(),
           '/end': (context) => const EndScreen(),
+          '/shop': (context) => const ShopScreen(),
         },
       ),
     );

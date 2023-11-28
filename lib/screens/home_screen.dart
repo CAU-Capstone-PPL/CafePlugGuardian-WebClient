@@ -53,6 +53,18 @@ class _HomeScreenState extends State<HomeScreen> {
         title: AppBarText(
           content: context.read<UserProvider>().user?.userName ?? '아무개씨',
         ),
+        actions: [
+          if (context.read<UserProvider>().isAuthenticated)
+            IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/shop');
+              },
+              icon: const Icon(
+                Icons.coffee,
+                size: 40,
+              ),
+            )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),

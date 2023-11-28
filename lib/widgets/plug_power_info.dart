@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:webclient/style.dart';
 
-class PlugPowerInfo extends StatelessWidget {
-  int assignPower, usedPower, realTimePower;
+class PlugPowerInfomattion extends StatelessWidget {
+  double assignPower, usedPower, realTimePower;
   String startTime, runningTime;
 
-  PlugPowerInfo({
+  PlugPowerInfomattion({
     super.key,
     required this.assignPower,
     required this.usedPower,

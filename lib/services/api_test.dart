@@ -15,4 +15,10 @@ class ApiTest {
     alertInstance = alerts.map((alert) => AlertModel.fromJson(alert)).toList();
     return alertInstance;
   }
+
+  static Future<PlugDetatilModel> testGetPlugChangedById(int id) async {
+    Map<String, dynamic> plugDataById =
+        dummyDataChanged.firstWhere((e) => e['plugId'] == id);
+    return PlugDetatilModel.fromJson(plugDataById);
+  }
 }

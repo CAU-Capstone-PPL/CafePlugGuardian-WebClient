@@ -1,5 +1,5 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:webclient/services/api_service.dart';
 import 'package:webclient/style.dart';
 import 'package:webclient/widgets/custom_button_widget.dart';
 
@@ -11,26 +11,22 @@ class PinInputScreen extends StatefulWidget {
 }
 
 class _PinInputScreenState extends State<PinInputScreen> {
-  int _testNumber = 0;
+  late final _pinNumber;
   final TextEditingController _pinNumberController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _generateRandomNumber();
+    _pinNumber = ApiService.issuedPinNumber(1);
   }
 
-  void _generateRandomNumber() {
-    setState(() {
-      _testNumber = Random()
-          .nextInt(10000); // Generates a random number between 0 and 9999
-    });
-  }
-
-  void _onNextPressed() {
-    String inputText = _pinNumberController.text;
-    //pin 번호 확인 api
-    Navigator.pushNamed(context, '/home');
+  void _onNextPressed() async {
+    int pinNumber = int.parse(_pinNumberController.text);
+    if (await ApiService.chargePower(1, pinNumber)) {
+      Navigator.pushNamed(context, '/home');
+    } else {
+      print("핀 번호 오류");
+    }
   }
 
   @override
@@ -44,42 +40,47 @@ class _PinInputScreenState extends State<PinInputScreen> {
           content: '핀 번호를 입력하세요',
         ),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Random PIN Number: $_testNumber',
-                style: const TextStyle(
-                    fontSize: 18.0, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20.0),
-              const HeadingText(content: '핀 번호를 입력하시면\n전력량이 충전됩니다'),
-              const SizedBox(height: 20.0),
-              TextField(
-                controller: _pinNumberController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Enter the PIN number',
-                  border: OutlineInputBorder(),
-                  contentPadding: EdgeInsets.all(12.0),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FutureBuilder(
+                  future: _pinNumber,
+                  builder: (context, snapshot) =>
+                      BoldText(content: '${snapshot.data}'),
                 ),
-              ),
-              const SizedBox(height: 16.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  CustomButton(
-                      content: '돌아가기',
-                      onPressed: () {
-                        Navigator.pop(context);
-                      }),
-                  CustomButton(content: '충전하기', onPressed: _onNextPressed),
-                ],
-              )
-            ],
+                const SizedBox(
+                  height: 40,
+                ),
+                const SizedBox(height: 20.0),
+                const HeadingText(content: '핀 번호를 입력하시면\n전력량이 충전됩니다'),
+                const SizedBox(height: 20.0),
+                TextField(
+                  controller: _pinNumberController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    labelText: 'Enter the PIN number',
+                    border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.all(12.0),
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CustomButton(
+                        content: '돌아가기',
+                        onPressed: () {
+                          Navigator.pop(context);
+                        }),
+                    CustomButton(content: '충전하기', onPressed: _onNextPressed),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

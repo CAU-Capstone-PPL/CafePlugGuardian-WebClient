@@ -49,4 +49,33 @@ class ApiService {
 
     return json['success'];
   }
+
+  static Future<int> issuedPinNumber(int cafeId) async {
+    final url = Uri.parse('$baseUrl/cafe/$cafeId/pin');
+    final response = await http.post(url);
+    print(response.statusCode);
+    if (response.statusCode != 200) {
+      throw Error();
+    }
+    final Map<String, dynamic> json = jsonDecode(response.body);
+
+    return json['result']['pinNumber'];
+  }
+
+  static Future<bool> chargePower(int plugId, int pinNumber) async {
+    final url = Uri.parse('$baseUrl/cafe/$plugId/pin');
+    final body = {'pinNumber': pinNumber};
+    final response = await http.post(url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(body));
+    print(response.statusCode);
+    if (response.statusCode != 200) {
+      throw Error();
+    }
+    final Map<String, dynamic> json = jsonDecode(response.body);
+
+    return json['success'];
+  }
 }

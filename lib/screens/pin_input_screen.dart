@@ -29,23 +29,8 @@ class _PinInputScreenState extends State<PinInputScreen> {
 
   void _onNextPressed() {
     String inputText = _pinNumberController.text;
-    bool isTargetPageInStack = false;
-    // Check if the target route is in the stack
-    if (Navigator.of(context).canPop()) {
-      Navigator.of(context).popUntil((route) {
-        if (route.settings.name == '/home') {
-          isTargetPageInStack = true;
-          return true;
-        }
-        return false;
-      });
-    }
-
-    if (isTargetPageInStack) {
-      Navigator.maybePop(context);
-    } else {
-      Navigator.pushNamed(context, '/home');
-    }
+    //pin 번호 확인 api
+    Navigator.pushNamed(context, '/home');
   }
 
   @override

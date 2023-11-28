@@ -1,11 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:webclient/models/plug_detail_model.dart';
 import 'package:webclient/provider/plug_information_provider.dart';
 import 'package:webclient/provider/user_provider.dart';
-import 'package:webclient/services/api_test.dart';
 import 'package:webclient/style.dart';
 import 'package:webclient/widgets/custom_button_widget.dart';
 import 'package:webclient/widgets/page_entry_button_widget.dart';
@@ -51,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: AppColor.background,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: AppColor.background,
         title: AppBarText(
           content: context.read<UserProvider>().user?.userName ?? '아무개씨',
@@ -174,10 +172,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 CustomButton(
                   content: '사용 종료하기',
                   onPressed: () {
-                    context.read<UserProvider>().logout();
-                    _stopTimer();
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/', (route) => false);
+                    if (context.read<UserProvider>().isAuthenticated) {
+                      _stopTimer();
+                      Navigator.pushNamed(context, '/maileage')
+                          .then((_) => _startTimer());
+                    } else {
+                      _stopTimer();
+                      Navigator.pushNamed(context, '/end');
+                    }
                   },
                 ),
               ],

@@ -83,6 +83,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   UserModel user =
                       await ApiService.postLogin(userAccount, userPw);
                   context.read<UserProvider>().login(user);
+                  _userAccountController.clear();
+                  _userPwController.clear();
                   Navigator.pushNamed(context, '/pinInput');
                 },
               ),

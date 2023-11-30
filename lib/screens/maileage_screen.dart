@@ -12,7 +12,8 @@ class MaileageScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColor.background,
       appBar: AppBar(
-        backgroundColor: AppColor.background,
+        backgroundColor:
+            AppColor.background, // Adjust the color based on your theme
         title: const AppBarText(
           content: '마일리지 적립',
         ),
@@ -20,13 +21,12 @@ class MaileageScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment:
+              CrossAxisAlignment.stretch, // Align children to fill the width
           children: [
             Container(
-              width: 400,
-              height: MediaQuery.of(context).size.height * 0.5,
+              padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                border: Border.all(color: AppColor.text, width: 1.5),
                 color: AppColor.background,
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
@@ -34,29 +34,47 @@ class MaileageScreen extends StatelessWidget {
                     blurRadius: 10,
                     offset: const Offset(5, 5),
                     color: Colors.black.withOpacity(0.3),
-                  )
+                  ),
                 ],
               ),
-              child: const Center(
-                child: Column(
-                  children: [
-                    HeadingText(content: '현재 마일리지: '),
-                    HeadingText(content: '남은 전력량에 따른 마일리지 '),
-                    HeadingText(content: '종료 후 나의 마일리지 '),
-                  ],
-                ),
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TitleText(content: '현재 마일리지:'),
+                      HeadingText(content: '120'), // Adjust font size
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TitleText(content: '남은 전력량에 따른 마일리지:'),
+                      HeadingText(content: '50'),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TitleText(content: '종료 후 나의 마일리지:'),
+                      HeadingText(content: '170'),
+                    ],
+                  ),
+                ],
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             CustomButton(
-                content: '적립 후 종료하기',
-                onPressed: () {
-                  //마일리지 적립 api 연결
-                  context.read<UserProvider>().logout();
-                  Navigator.pushNamed(context, '/end');
-                }),
+              content: '적립 후 종료하기',
+              onPressed: () {
+                // 마일리지 적립 API 연결
+                context.read<UserProvider>().logout();
+                Navigator.pushNamed(context, '/end');
+              },
+            ),
           ],
         ),
       ),

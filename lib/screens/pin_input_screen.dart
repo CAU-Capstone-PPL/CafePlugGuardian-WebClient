@@ -22,10 +22,27 @@ class _PinInputScreenState extends State<PinInputScreen> {
 
   void _onNextPressed() async {
     int pinNumber = int.parse(_pinNumberController.text);
-    if (await ApiService.chargePower(1, pinNumber)) {
-      Navigator.pushNamed(context, '/home');
-    } else {
-      print("핀 번호 오류");
+    try {
+      if (await ApiService.chargePower(1, pinNumber)) {
+        Navigator.pushNamed(context, '/home');
+      }
+    } catch (e) {
+      final errorMessage = e.toString();
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const HeadingText(content: 'Error'),
+          content: BoldText(content: errorMessage),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
     }
   }
 

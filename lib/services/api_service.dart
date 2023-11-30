@@ -17,7 +17,7 @@ class ApiService {
           'Content-Type': 'application/json',
         },
         body: body);
-    print(response.statusCode);
+
     if (response.statusCode != 200) {
       final dynamic json = jsonDecode(response.body);
       final String errorMessage = json['message'] ?? 'An error occurred';
@@ -74,9 +74,11 @@ class ApiService {
           'Content-Type': 'application/json',
         },
         body: jsonEncode(body));
-    print(response.statusCode);
+
     if (response.statusCode != 200) {
-      throw Error();
+      final dynamic json = jsonDecode(response.body);
+      final String errorMessage = json['message'] ?? 'An error occurred';
+      throw Exception(errorMessage);
     }
     final Map<String, dynamic> json = jsonDecode(response.body);
 

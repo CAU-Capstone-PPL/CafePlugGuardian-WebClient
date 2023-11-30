@@ -69,13 +69,31 @@ class SignUpScreen extends StatelessWidget {
                   String userAccount = _userAccountController.text;
                   String userPw = _userPwController.text;
                   String userName = _userNameController.text;
-                  if (await ApiService.singUp(userAccount, userName, userPw)) {
-                    Navigator.pop(context);
-                    _userAccountController.clear();
-                    _userPwController.clear();
-                    _userNameController.clear();
-                  } else {
-                    print('회원가입 오류!');
+                  try {
+                    if (await ApiService.singUp(
+                        userAccount, userName, userPw)) {
+                      Navigator.pop(context);
+                      _userAccountController.clear();
+                      _userPwController.clear();
+                      _userNameController.clear();
+                    }
+                  } catch (e) {
+                    final errorMessage = e.toString();
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const HeadingText(content: 'SignUp Error'),
+                        content: BoldText(content: errorMessage),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      ),
+                    );
                   }
                 },
               ),

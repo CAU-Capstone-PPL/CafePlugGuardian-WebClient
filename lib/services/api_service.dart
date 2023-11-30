@@ -45,7 +45,9 @@ class ApiService {
         body: body);
     print(response.statusCode);
     if (response.statusCode != 200) {
-      throw Error();
+      final dynamic json = jsonDecode(response.body);
+      final String errorMessage = json['message'] ?? 'An error occurred';
+      throw Exception(errorMessage);
     }
     final dynamic json = jsonDecode(response.body);
 

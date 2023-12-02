@@ -1,11 +1,16 @@
+import 'package:webclient/models/date_time_model.dart';
+
 class AlertModel {
-  final String plugName, blockingTime;
   final int plugId;
-  final bool check;
+  final String plugName, type;
+  final DateTimeModel plugOffTime;
+  final bool ownerCheck, isToggleOn;
 
   AlertModel.fromJson(Map<String, dynamic> json)
       : plugId = json['plugId'],
         plugName = json['plugName'],
-        blockingTime = json['blockingTime'],
-        check = json['check'];
+        type = json['type'],
+        plugOffTime = DateTimeModel.fromJson(json['plugOffTime']),
+        ownerCheck = json['ownerCheck'],
+        isToggleOn = json['isToggleOn'];
 }

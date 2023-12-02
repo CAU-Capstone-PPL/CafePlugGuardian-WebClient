@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:webclient/models/date_time_model.dart';
 import 'package:webclient/style.dart';
 import 'package:webclient/widgets/custom_button_widget.dart';
 
 class Alert extends StatelessWidget {
   final int plugId;
-  final String plugName;
-  final String blockingTime;
-  final bool check;
-  const Alert({
-    super.key,
-    required this.plugId,
-    required this.plugName,
-    required this.blockingTime,
-    required this.check,
-  });
+  final String plugName, type;
+  final DateTimeModel plugOffTime;
+  final bool ownerCheck, isToggleOn;
+  const Alert(
+      {super.key,
+      required this.plugId,
+      required this.plugName,
+      required this.type,
+      required this.plugOffTime,
+      required this.ownerCheck,
+      required this.isToggleOn});
 
   @override
   Widget build(BuildContext context) {
     return Opacity(
-      opacity: check == false ? 1 : 0.5,
+      opacity: isToggleOn == false ? 1 : 0.5,
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(width: 1.5),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:webclient/models/alert_model.dart';
+import 'package:webclient/provider/alert_provider.dart';
+import 'package:webclient/provider/user_provider.dart';
 import 'package:webclient/services/api_test.dart';
 import 'package:webclient/style.dart';
 import 'package:webclient/widgets/alert_widget.dart';
@@ -12,51 +15,48 @@ class AlertScreen extends StatefulWidget {
 }
 
 class _AlertScreenState extends State<AlertScreen> {
-  late Future<List<AlertModel>> alerts;
-
   @override
   void initState() {
     super.initState();
-    alerts = ApiTest.tsetGetAlertList();
+    update();
+  }
+
+  void update() {
+    context.read<AlertProvider>().updatePlug(101);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.background,
-      appBar: AppBar(
-        title: const AppBarText(
-          content: '플러그 보호 알람',
-        ),
         backgroundColor: AppColor.background,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: FutureBuilder(
-          future: alerts,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.separated(
-                itemCount: snapshot.data!.length,
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 10),
-                itemBuilder: (context, index) {
-                  var alert = snapshot.data![index];
-                  return Alert(
-                    plugId: alert.plugId,
-                    plugName: alert.plugName,
-                    blockingTime: alert.blockingTime,
-                    check: alert.check,
-                  );
-                },
-              );
-            }
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          },
+        appBar: AppBar(
+          title: const AppBarText(
+            content: '플러그 Off 로그',
+          ),
+          backgroundColor: AppColor.background,
         ),
-      ),
-    );
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: context.watch<AlertProvider>().alertList!.isNotEmpty
+              ? ListView.separated(
+                  itemCount: context.watch<AlertProvider>().alertList!.length,
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 30),
+                  itemBuilder: (context, index) {
+                    var alert =
+                        context.watch<AlertProvider>().alertList![index];
+                    return Alert(
+                        plugId: alert.plugId,
+                        plugName: alert.plugName,
+                        type: alert.type,
+                        plugOffTime: alert.plugOffTime,
+                        ownerCheck: alert.ownerCheck,
+                        isToggleOn: alert.isToggleOn);
+                  },
+                )
+              : const Center(
+                  child: TitleText(content: '로그가 없습니다.'),
+                ),
+        ));
   }
 }

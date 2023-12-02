@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:webclient/provider/alert_provider.dart';
 import 'package:webclient/provider/plug_information_provider.dart';
 import 'package:webclient/provider/user_provider.dart';
 import 'package:webclient/screens/alert_screen.dart';
@@ -29,6 +30,8 @@ class MyApp extends StatelessWidget {
             create: (BuildContext context) => UserProvider()),
         ChangeNotifierProvider(
             create: (BuildContext context) => PlugInformationProvider()),
+        ChangeNotifierProvider(
+            create: (BuildContext context) => AlertProvider()),
       ],
       child: MaterialApp(
         title: 'cafe_plug_guardian_web_client',

@@ -366,82 +366,6 @@ const List<Map<String, dynamic>> dummyDataChanged = [
   }
 ];
 
-//더미데이터
-const List<Map<String, dynamic>> dummyDataAlerts = [
-  {
-    "plugId": 101,
-    "plugName": "Plug101",
-    "blockingTime": {
-      "date": {"year": 2023, "month": 11, "day": 26},
-      "time": {"hours": 20, "minutes": 31},
-    },
-    "check": false
-  },
-  {
-    "plugId": 202,
-    "plugName": "Plug202",
-    "blockingTime": {
-      "date": {"year": 2023, "month": 11, "day": 25},
-      "time": {"hours": 18, "minutes": 45}
-    },
-    "check": true
-  },
-  {
-    "plugId": 303,
-    "plugName": "Plug303",
-    "blockingTime": {
-      "date": {"year": 2023, "month": 11, "day": 24},
-      "time": {"hours": 16, "minutes": 12}
-    },
-    "check": false
-  },
-  {
-    "plugId": 404,
-    "plugName": "Plug404",
-    "blockingTime": {
-      "date": {"year": 2023, "month": 11, "day": 23},
-      "time": {"hours": 14, "minutes": 28}
-    },
-    "check": true
-  },
-  {
-    "plugId": 505,
-    "plugName": "Plug505",
-    "blockingTime": {
-      "date": {"year": 2023, "month": 11, "day": 22},
-      "time": {"hours": 12, "minutes": 54}
-    },
-    "check": false
-  },
-  {
-    "plugId": 606,
-    "plugName": "Plug606",
-    "blockingTime": {
-      "date": {"year": 2023, "month": 11, "day": 21},
-      "time": {"hours": 11, "minutes": 10}
-    },
-    "check": true
-  },
-  {
-    "plugId": 707,
-    "plugName": "Plug707",
-    "blockingTime": {
-      "date": {"year": 2023, "month": 11, "day": 20},
-      "time": {"hours": 9, "minutes": 26}
-    },
-    "check": false
-  },
-  {
-    "plugId": 808,
-    "plugName": "Plug808",
-    "blockingTime": {
-      "date": {"year": 2023, "month": 11, "day": 19},
-      "time": {"hours": 7, "minutes": 42}
-    },
-    "check": true
-  },
-];
-
 const List<double> dummyDataWeeklyPowerData = [
   70.0,
   60.0,
@@ -501,8 +425,8 @@ List<Map<String, dynamic>> testGetAlertList = [
       "date": {"year": 2023, "month": 11, "day": 30},
       "time": {"hours": 22, "minutes": 10}
     },
-    "ownerCheck": true,
-    "isToggleOn": true
+    "ownerCheck": false,
+    "isToggleOn": false,
   },
   {
     "plugId": 101,
@@ -513,18 +437,7 @@ List<Map<String, dynamic>> testGetAlertList = [
       "time": {"hours": 20, "minutes": 31}
     },
     "ownerCheck": false,
-    "isToggleOn": false
-  },
-  {
-    "plugId": 101,
-    "plugName": "Plug101",
-    "type": "PowerLimit",
-    "plugOffTime": {
-      "date": {"year": 2023, "month": 11, "day": 30},
-      "time": {"hours": 20, "minutes": 31}
-    },
-    "ownerCheck": true,
-    "isToggleOn": true
+    "isToggleOn": false,
   },
   {
     "plugId": 101,
@@ -534,8 +447,8 @@ List<Map<String, dynamic>> testGetAlertList = [
       "date": {"year": 2023, "month": 11, "day": 30},
       "time": {"hours": 18, "minutes": 45}
     },
-    "ownerCheck": false,
-    "isToggleOn": false
+    "ownerCheck": true,
+    "isToggleOn": true,
   },
   {
     "plugId": 101,
@@ -546,7 +459,7 @@ List<Map<String, dynamic>> testGetAlertList = [
       "time": {"hours": 14, "minutes": 30}
     },
     "ownerCheck": true,
-    "isToggleOn": true
+    "isToggleOn": true,
   },
   {
     "plugId": 101,
@@ -557,17 +470,6 @@ List<Map<String, dynamic>> testGetAlertList = [
       "time": {"hours": 12, "minutes": 15}
     },
     "ownerCheck": false,
-    "isToggleOn": false
-  },
-  {
-    "plugId": 101,
-    "plugName": "Plug101",
-    "type": "PowerLimit",
-    "plugOffTime": {
-      "date": {"year": 2023, "month": 11, "day": 30},
-      "time": {"hours": 10, "minutes": 0}
-    },
-    "ownerCheck": true,
-    "isToggleOn": true
+    "isToggleOn": false,
   },
 ];

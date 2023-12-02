@@ -57,7 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
           if (context.read<UserProvider>().isAuthenticated)
             IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/shop');
+                _stopTimer();
+                Navigator.pushNamed(context, '/shop')
+                    .then((_) => _startTimer());
               },
               icon: const Icon(
                 Icons.coffee,

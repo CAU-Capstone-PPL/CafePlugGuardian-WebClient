@@ -1,4 +1,5 @@
 import 'package:webclient/models/alert_model.dart';
+import 'package:webclient/models/menu_model.dart';
 import 'package:webclient/models/plug_detail_model.dart';
 import 'package:webclient/services/data_test.dart';
 
@@ -20,5 +21,11 @@ class ApiTest {
     Map<String, dynamic> plugDataById =
         dummyDataChanged.firstWhere((e) => e['plugId'] == id);
     return PlugDetatilModel.fromJson(plugDataById);
+  }
+
+  static Future<List<MenuModel>> testGetMenu() async {
+    List<MenuModel> menuList =
+        cafeMenuData.map((menu) => MenuModel.fromJson(menu)).toList();
+    return menuList;
   }
 }

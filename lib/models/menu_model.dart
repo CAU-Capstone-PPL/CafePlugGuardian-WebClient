@@ -1,11 +1,16 @@
-class Menu {
-  final String name, describe;
-  final int price;
+class MenuModel {
+  final String name, description;
+  final int id, price;
 
-  Menu({required this.name, required this.price, required this.describe});
+  MenuModel(
+      {required this.id,
+      required this.name,
+      required this.price,
+      required this.description});
 
-  Menu.fromJson(Map<String, dynamic> json)
-      : name = json['name'],
-        price = json['price'],
-        describe = json['describe'];
+  MenuModel.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        description = json['description'],
+        price = json['price'];
 }

@@ -491,3 +491,83 @@ List<Map<String, dynamic>> cafeMenuData = [
   },
   // Add more cafe items as needed
 ];
+
+List<Map<String, dynamic>> testGetAlertList = [
+  {
+    "plugId": 101,
+    "plugName": "Plug101",
+    "type": "PowerLimit",
+    "plugOffTime": {
+      "date": {"year": 2023, "month": 11, "day": 30},
+      "time": {"hours": 22, "minutes": 10}
+    },
+    "ownerCheck": true,
+    "isToggleOn": true
+  },
+  {
+    "plugId": 101,
+    "plugName": "Plug101",
+    "type": "Blocking",
+    "plugOffTime": {
+      "date": {"year": 2023, "month": 11, "day": 30},
+      "time": {"hours": 20, "minutes": 31}
+    },
+    "ownerCheck": false,
+    "isToggleOn": false
+  },
+  {
+    "plugId": 101,
+    "plugName": "Plug101",
+    "type": "PowerLimit",
+    "plugOffTime": {
+      "date": {"year": 2023, "month": 11, "day": 30},
+      "time": {"hours": 20, "minutes": 31}
+    },
+    "ownerCheck": true,
+    "isToggleOn": true
+  },
+  {
+    "plugId": 101,
+    "plugName": "Plug101",
+    "type": "Blocking",
+    "plugOffTime": {
+      "date": {"year": 2023, "month": 11, "day": 30},
+      "time": {"hours": 18, "minutes": 45}
+    },
+    "ownerCheck": false,
+    "isToggleOn": false
+  },
+  {
+    "plugId": 101,
+    "plugName": "Plug101",
+    "type": "PowerLimit",
+    "plugOffTime": {
+      "date": {"year": 2023, "month": 11, "day": 30},
+      "time": {"hours": 14, "minutes": 30}
+    },
+    "ownerCheck": true,
+    "isToggleOn": true
+  },
+  {
+    "plugId": 101,
+    "plugName": "Plug101",
+    "type": "Blocking",
+    "plugOffTime": {
+      "date": {"year": 2023, "month": 11, "day": 30},
+      "time": {"hours": 12, "minutes": 15}
+    },
+    "ownerCheck": false,
+    "isToggleOn": false
+  },
+  {
+    "plugId": 101,
+    "plugName": "Plug101",
+    "type": "PowerLimit",
+    "plugOffTime": {
+      "date": {"year": 2023, "month": 11, "day": 30},
+      "time": {"hours": 10, "minutes": 0}
+    },
+    "ownerCheck": true,
+    "isToggleOn": true
+  },
+];

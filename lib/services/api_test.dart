@@ -28,4 +28,11 @@ class ApiTest {
         cafeMenuData.map((menu) => MenuModel.fromJson(menu)).toList();
     return menuList;
   }
+
+  static Future<List<AlertModel>> testGetAlertListByPlugId(int plugId) async {
+    List<AlertModel> alertInstance =
+        testGetAlertList.map((alert) => AlertModel.fromJson(alert)).toList();
+
+    return alertInstance;
+  }
 }

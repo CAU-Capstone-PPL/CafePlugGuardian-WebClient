@@ -6,7 +6,7 @@ import 'package:webclient/provider/user_provider.dart';
 import 'package:webclient/style.dart';
 import 'package:webclient/widgets/custom_button_widget.dart';
 import 'package:webclient/widgets/page_entry_button_widget.dart';
-import 'package:webclient/widgets/plug_power_info.dart';
+import 'dart:math';
 
 class HomeScreen extends StatefulWidget {
   final int plugId;
@@ -45,6 +45,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double fillRatio =
+        context.watch<PlugInformationProvider>().plug!.assignPower == 0.0
+            ? context.watch<PlugInformationProvider>().plug!.assignPower
+            : context.watch<PlugInformationProvider>().plug!.usedPower /
+                context.watch<PlugInformationProvider>().plug!.assignPower;
     return Scaffold(
       backgroundColor: AppColor.background,
       appBar: AppBar(
@@ -81,28 +86,28 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.pushNamed(context, '/help')
                           .then((_) => _startTimer());
                     })),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Container(
-                width: 400,
-                height: 350,
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColor.text, width: 1.5),
-                  color: AppColor.background,
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 10,
-                      offset: const Offset(5, 5),
-                      color: Colors.black.withOpacity(0.3),
-                    )
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
+            Container(
+              height: 350,
+              decoration: BoxDecoration(
+                //border: Border.all(color: AppColor.text, width: 1.5),
+                color: AppColor.background,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 10,
+                    offset: const Offset(5, 5),
+                    color: Colors.black.withOpacity(0.3),
+                  )
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         NormalText(content: '플러그 ID: ${widget.plugId}'),
                         BoldText(
@@ -119,49 +124,131 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         BoldText(
                             content: context
-                                .watch<PlugInformationProvider>()
-                                .plug!
-                                .onOff),
+                                    .watch<PlugInformationProvider>()
+                                    .plug!
+                                    .toggle
+                                ? 'On'
+                                : 'Off'),
+                        CustomSmallButton(
+                            content: context
+                                    .watch<PlugInformationProvider>()
+                                    .plug!
+                                    .toggle
+                                ? 'Off'
+                                : 'On',
+                            onPressed: () {
+                              if (context
+                                  .watch<PlugInformationProvider>()
+                                  .plug!
+                                  .toggle) {
+                                //ApiPlug.patchPlugOff(widget.id);
+                              } else {
+                                //ApiPlug.patchPlugOn(widget.id);
+                              }
+                            }),
                         const SizedBox(
                           height: 10,
                         ),
-                        Text(
-                          context
+                        CaptionText(
+                          content: context
                               .read<PlugInformationProvider>()
                               .plug!
                               .plugDescription,
-                          style: const TextStyle(
-                            fontSize: 12,
-                          ),
                         ),
                       ],
                     ),
-                    PlugPowerInfomattion(
-                      assignPower: context
-                          .watch<PlugInformationProvider>()
-                          .plug!
-                          .assignPower,
-                      usedPower: context
-                          .watch<PlugInformationProvider>()
-                          .plug!
-                          .usedPower,
-                      realTimePower: context
-                          .watch<PlugInformationProvider>()
-                          .plug!
-                          .realTimePower,
-                      startTime: context
-                          .watch<PlugInformationProvider>()
-                          .plug!
-                          .startTime
-                          .toString(),
-                      runningTime: context
-                          .watch<PlugInformationProvider>()
-                          .plug!
-                          .runningTime
-                          .toString(),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Stack(
+                          alignment: AlignmentDirectional.center,
+                          children: [
+                            Container(
+                              width: 170,
+                              height: 170,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.grey[200],
+                              ),
+                            ),
+                            Container(
+                              width: 170,
+                              height: 170,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: CustomPaint(
+                                painter: CircularGraphPainter(ratio: fillRatio),
+                              ),
+                            ),
+                            Container(
+                              width: 120,
+                              height: 120,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColor.background,
+                              ),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const CaptionText(content: '실시간 전력량'),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    TitleText(
+                                        content:
+                                            '${context.watch<PlugInformationProvider>().plug!.realTimePower}'),
+                                    const CaptionText(content: ' Wh'),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const NormalText(content: '총 전력량'),
+                            const SizedBox(width: 10),
+                            BoldText(
+                                content:
+                                    '${context.watch<PlugInformationProvider>().plug!.assignPower}'),
+                            const SizedBox(width: 2),
+                            const CaptionText(content: 'Wh'),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const NormalText(content: '남은 전력량'),
+                            const SizedBox(width: 10),
+                            BoldText(
+                                content:
+                                    '${context.watch<PlugInformationProvider>().plug!.assignPower - context.watch<PlugInformationProvider>().plug!.usedPower}'),
+                            const SizedBox(width: 2),
+                            const CaptionText(content: 'Wh'),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                            '사용시간 ${context.watch<PlugInformationProvider>().plug!.runningTime}'),
+                        Text(
+                            '시작시간 ${context.watch<PlugInformationProvider>().plug!.startTime}'),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             PageEntryButton(
@@ -173,7 +260,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomButton(
                   content: '충전하러 가기',
@@ -202,5 +289,49 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+}
+
+Color _getColor(double fillRatio) {
+  if (fillRatio >= 0.8) {
+    return Colors.red;
+  } else if (fillRatio >= 0.6) {
+    return Colors.yellow;
+  } else {
+    return AppColor.main;
+  }
+}
+
+class CircularGraphPainter extends CustomPainter {
+  final double ratio;
+
+  CircularGraphPainter({required this.ratio});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()
+      ..color = _getColor(ratio)
+      ..style = PaintingStyle.fill;
+
+    double radius = size.width / 2;
+    double centerX = size.width / 2;
+    double centerY = size.height / 2;
+
+    double startAngle = -pi / 2;
+    double sweepAngle = 2 * pi * ratio;
+
+    Path path = Path()
+      ..moveTo(centerX, centerY)
+      ..lineTo(centerX, centerY - radius)
+      ..arcTo(Rect.fromCircle(center: Offset(centerX, centerY), radius: radius),
+          startAngle, sweepAngle, false)
+      ..close();
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
   }
 }

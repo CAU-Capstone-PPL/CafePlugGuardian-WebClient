@@ -21,9 +21,15 @@ class MaileageScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.stretch, // Align children to fill the width
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            HeadingText(
+                content:
+                    '${context.read<UserProvider>().user!.userName} 님의 마일리지 현황'),
+            const SizedBox(
+              height: 20,
+            ),
             Container(
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(

@@ -18,36 +18,33 @@ class PageEntryButton extends StatefulWidget {
 class _PageEntryButtonState extends State<PageEntryButton> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: AppColor.text, width: 1.5),
-            borderRadius: BorderRadius.circular(10),
-            color: AppColor.background,
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 2,
-                offset: const Offset(5, 5),
-                color: Colors.black.withOpacity(0.3),
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          //border: Border.all(color: AppColor.text, width: 1.5),
+          borderRadius: BorderRadius.circular(10),
+          color: AppColor.background,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 2,
+              offset: const Offset(5, 5),
+              color: Colors.black.withOpacity(0.3),
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              BoldText(content: widget.content),
+              const Icon(
+                Icons.chevron_right_rounded,
+                size: 30,
+                color: AppColor.text,
               ),
             ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                BoldText(content: widget.content),
-                const Icon(
-                  Icons.chevron_right_rounded,
-                  size: 30,
-                  color: AppColor.text,
-                ),
-              ],
-            ),
           ),
         ),
       ),

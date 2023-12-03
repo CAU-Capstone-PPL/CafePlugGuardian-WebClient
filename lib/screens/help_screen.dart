@@ -7,7 +7,11 @@ class HelpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const AppBarText(content: '서비스 매뉴얼')),
+        backgroundColor: AppColor.background,
+        appBar: AppBar(
+          title: const AppBarText(content: '서비스 매뉴얼'),
+          backgroundColor: AppColor.background,
+        ),
         body: const SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(20.0),

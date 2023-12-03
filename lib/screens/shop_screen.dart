@@ -40,7 +40,7 @@ class _ShopScreenState extends State<ShopScreen> {
             Container(
               decoration: BoxDecoration(
                 border: Border.all(color: AppColor.text, width: 1.5),
-                color: AppColor.background,
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   BoxShadow(

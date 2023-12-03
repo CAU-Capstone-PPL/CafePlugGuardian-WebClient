@@ -204,7 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     TitleText(
                                         content:
                                             '${context.watch<PlugInformationProvider>().plug!.realTimePower}'),
-                                    const CaptionText(content: ' Wh'),
+                                    const CaptionText(content: ' W'),
                                   ],
                                 )
                               ],

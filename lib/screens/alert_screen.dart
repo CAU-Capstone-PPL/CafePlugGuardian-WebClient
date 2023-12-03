@@ -22,7 +22,7 @@ class _AlertScreenState extends State<AlertScreen> {
   }
 
   void update() {
-    context.read<AlertProvider>().updatePlug(101);
+    context.read<AlertProvider>().updateAlert(101);
   }
 
   @override

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:webclient/provider/plug_information_provider.dart';
 import 'package:webclient/provider/user_provider.dart';
+import 'package:webclient/services/api_service.dart';
 import 'package:webclient/style.dart';
 import 'package:webclient/widgets/custom_button_widget.dart';
 import 'package:webclient/widgets/page_entry_button_widget.dart';
@@ -32,6 +33,16 @@ class _HomeScreenState extends State<HomeScreen> {
       name = '손님 ${random.nextInt(9999) + 1}';
     }
     //plug = ApiPlug.getPlugById(widget.id);
+  }
+
+  void _showErrorSnackBar(BuildContext context, String errorMessage) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(errorMessage),
+        duration: const Duration(seconds: 3),
+        backgroundColor: Colors.red,
+      ),
+    );
   }
 
   void _startTimer() {
@@ -278,14 +289,33 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 CustomButton(
                   content: '사용 종료하기',
-                  onPressed: () {
+                  onPressed: () async {
                     if (context.read<UserProvider>().isAuthenticated) {
+                      //회원이라면
                       _stopTimer();
-                      Navigator.pushNamed(context, '/maileage')
-                          .then((_) => _startTimer());
+                      try {
+                        if (await ApiService.stopService(1)) {
+                          //await ApiService.stopService(widget.plugId)) {
+                          Navigator.pushNamed(context, '/maileage')
+                              .then((_) => _startTimer());
+                        }
+                      } catch (e) {
+                        final errorMessage = e.toString();
+                        _showErrorSnackBar(context, errorMessage);
+                      }
                     } else {
+                      //비회원이라면
                       _stopTimer();
-                      Navigator.pushNamed(context, '/end');
+                      try {
+                        if (await ApiService.stopService(1)) {
+                          //await ApiService.stopService(widget.plugId)) {
+                          Navigator.pushNamed(context, '/end')
+                              .then((_) => _startTimer());
+                        }
+                      } catch (e) {
+                        final errorMessage = e.toString();
+                        _showErrorSnackBar(context, errorMessage);
+                      }
                     }
                   },
                 ),

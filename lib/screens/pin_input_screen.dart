@@ -24,22 +24,31 @@ class _PinInputScreenState extends State<PinInputScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(errorMessage),
-        duration: const Duration(seconds: 3), // Adjust the duration as needed
+        duration: const Duration(seconds: 3),
         backgroundColor: Colors.red,
       ),
     );
   }
 
   void _onNextPressed() async {
-    int pinNumber = int.parse(_pinNumberController.text);
-    try {
+    String pinString = _pinNumberController.text.trim();
+    if (pinString.isEmpty) {
+      _showErrorSnackBar(context, 'Please enter a pin number.');
+      return;
+    } else if (!RegExp(r'^[0-9]+$').hasMatch(pinString)) {
+      _showErrorSnackBar(context, 'Please enter a valid number.');
+      return;
+    }
+    int pinNumber = int.parse(pinString);
+    Navigator.pushNamed(context, '/home'); //Test Code
+    /*try {
       if (await ApiService.chargePower(1, pinNumber)) {
         Navigator.pushNamed(context, '/home');
       }
     } catch (e) {
       final errorMessage = e.toString();
       _showErrorSnackBar(context, errorMessage);
-    }
+    }*/
   }
 
   @override

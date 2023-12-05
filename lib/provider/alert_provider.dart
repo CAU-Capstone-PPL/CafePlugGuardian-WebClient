@@ -10,12 +10,14 @@ class AlertProvider extends ChangeNotifier {
   List<AlertModel>? get alertList => _alertList;
 
   void updateAlert(int plugId) async {
-    _alertList = await ApiTest.testGetAlertListByPlugId(plugId);
+    _alertList = await ApiService.getAlertListById(plugId);
+    //_alertList = await ApiTest.testGetAlertListByPlugId(plugId);
     notifyListeners();
   }
 
-  void onToggle(int plugId) {
-    //토글 on으로 바꾸는 api
-    updateAlert(plugId);
+  void onToggle(int plugId) async {
+    if (await ApiService.patchPlugOn(plugId)) {
+      updateAlert(plugId);
+    } else {}
   }
 }

@@ -22,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(errorMessage),
-        duration: const Duration(seconds: 3), // Adjust the duration as needed
+        duration: const Duration(seconds: 3),
         backgroundColor: Colors.red,
       ),
     );

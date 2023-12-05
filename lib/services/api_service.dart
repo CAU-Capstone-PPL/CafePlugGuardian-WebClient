@@ -2,11 +2,14 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:webclient/models/alert_model.dart';
 import 'package:webclient/models/menu_model.dart';
+import 'package:webclient/models/plug_detail_model.dart';
 import 'package:webclient/models/user_model.dart';
+import 'package:webclient/provider/plug_information_provider.dart';
 
 class ApiService {
   static const String baseUrl = 'http://43.202.29.19/api';
 
+  //로그인
   static Future<UserModel> postLogin(String userAccount, String userPw) async {
     final url = Uri.parse('$baseUrl/user/login');
     Map<String, dynamic> data = {
@@ -31,6 +34,7 @@ class ApiService {
     return result;
   }
 
+  //회원가입
   static Future<bool> singUp(
       String userAccount, String userName, String userPw) async {
     final url = Uri.parse('$baseUrl/user/signUp');
@@ -56,6 +60,7 @@ class ApiService {
     return json['success'];
   }
 
+  //핀 번호 발급
   static Future<int> issuedPinNumber(int cafeId) async {
     final url = Uri.parse('$baseUrl/cafe/$cafeId/pin');
     final response = await http.post(url);
@@ -68,8 +73,49 @@ class ApiService {
     return json['result']['pinNumber'];
   }
 
+  //플러그 1개 정보
+  static Future<PlugDetailModel> getPlugById(int plugId) async {
+    final url = Uri.parse('$baseUrl/plug/$plugId/info');
+    final response = await http.get(url);
+    if (response.statusCode != 200) {
+      throw Error();
+    }
+    final Map<String, dynamic> body = jsonDecode(response.body);
+
+    return PlugDetailModel.fromJson(body['result']);
+  }
+
+  //토글 on
+  static Future<bool> patchPlugOn(int plugId) async {
+    final url = Uri.parse('$baseUrl/plug/$plugId/turnOn');
+    final response = await http.patch(url);
+
+    if (response.statusCode != 200) {
+      final dynamic json = jsonDecode(response.body);
+      final String errorMessage = json['message'] ?? 'An error occurred';
+      throw Exception(errorMessage);
+    }
+    final dynamic json = jsonDecode(response.body);
+    return json['success'];
+  }
+
+  //토클 off
+  static Future<bool> patchPlugOff(int plugId) async {
+    final url = Uri.parse('$baseUrl/plug/$plugId/turnOff');
+    final response = await http.patch(url);
+
+    if (response.statusCode != 200) {
+      final dynamic json = jsonDecode(response.body);
+      final String errorMessage = json['message'] ?? 'An error occurred';
+      throw Exception(errorMessage);
+    }
+    final dynamic json = jsonDecode(response.body);
+    return json['success'];
+  }
+
+  //플러그 고객 사용
   static Future<bool> chargePower(int plugId, int pinNumber) async {
-    final url = Uri.parse('$baseUrl/cafe/$plugId/pin');
+    final url = Uri.parse('$baseUrl/plug/$plugId/use');
     final body = {'pinNumber': pinNumber};
     final response = await http.post(url,
         headers: {
@@ -87,8 +133,9 @@ class ApiService {
     return json['success'];
   }
 
-  static Future<bool> patchPlugOn(int plugId) async {
-    final url = Uri.parse('$baseUrl/plug/$plugId/turnOn');
+  //플러그 사용 종료
+  static Future<bool> stopService(int plugId) async {
+    final url = Uri.parse('$baseUrl/plug/$plugId/stop');
     final response = await http.patch(url);
 
     if (response.statusCode != 200) {
@@ -100,17 +147,21 @@ class ApiService {
     return json['success'];
   }
 
-  static Future<bool> patchPlugOff(int plugId) async {
-    final url = Uri.parse('$baseUrl/plug/$plugId/turnOff');
-    final response = await http.patch(url);
-
+  //손님용 웹 플러그 차단 로그 (get)
+  static Future<List<AlertModel>> getAlertListById(int plugId) async {
+    final url = Uri.parse('$baseUrl/plug/$plugId/plugOffLog');
+    final response = await http.get(url);
     if (response.statusCode != 200) {
       final dynamic json = jsonDecode(response.body);
       final String errorMessage = json['message'] ?? 'An error occurred';
       throw Exception(errorMessage);
     }
-    final dynamic json = jsonDecode(response.body);
-    return json['success'];
+    final dynamic body = jsonDecode(response.body);
+    final List<dynamic> alerts = body['result'];
+    final List<AlertModel> alertInstance =
+        alerts.map((alert) => AlertModel.fromJson(alert)).toList();
+
+    return alertInstance;
   }
 
   //get 마일리지
@@ -147,23 +198,6 @@ class ApiService {
     }
     final dynamic json = jsonDecode(response.body);
     return json['success'];
-  }
-
-  //손님용 웹 플러그 차단 로그 (get)
-  static Future<List<AlertModel>> getAlertListById(int plugId) async {
-    final url = Uri.parse('$baseUrl/plug/$plugId/plugOffLog');
-    final response = await http.get(url);
-    if (response.statusCode != 200) {
-      final dynamic json = jsonDecode(response.body);
-      final String errorMessage = json['message'] ?? 'An error occurred';
-      throw Exception(errorMessage);
-    }
-    final dynamic body = jsonDecode(response.body);
-    final List<dynamic> alerts = body['result'];
-    final List<AlertModel> alertInstance =
-        alerts.map((alert) => AlertModel.fromJson(alert)).toList();
-
-    return alertInstance;
   }
 
   //get 사장님 상점 메뉴 리스트

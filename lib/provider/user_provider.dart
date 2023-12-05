@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:webclient/models/user_model.dart';
+import 'package:webclient/services/api_service.dart';
 
 class UserProvider extends ChangeNotifier {
   final int _plugId = 101;
   UserModel? _user;
-  int? _maileage;
-  bool _isUnMember = true;
+  int _maileage = 0;
+  bool _isUnMember = false;
 
   UserModel? get user => _user;
-  int? get mailleage => _maileage;
+  int get mailleage => _maileage;
   int get plugId => _plugId;
   bool get isUnMember => _isUnMember;
 
@@ -31,8 +32,8 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getMaileage() {
-    _maileage = 300;
+  void getMaileage(int userId) async {
+    _maileage = await ApiService.getMileage(userId);
     notifyListeners();
   }
 }

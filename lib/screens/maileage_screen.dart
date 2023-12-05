@@ -12,6 +12,7 @@ class MaileageScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColor.background,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor:
             AppColor.background, // Adjust the color based on your theme
         title: const AppBarText(

@@ -1,13 +1,13 @@
 import 'package:webclient/models/time_model.dart';
 
-class PlugDetatilModel {
+class PlugDetailModel {
   int plugId;
   String plugName, plugDescription;
   bool toggle, useStatus;
   TimeModel startTime, runningTime;
   double usedPower, assignPower, realTimePower;
 
-  PlugDetatilModel(
+  PlugDetailModel(
       {required this.plugId,
       required this.plugName,
       required this.toggle,
@@ -19,7 +19,7 @@ class PlugDetatilModel {
       required this.realTimePower,
       required this.usedPower});
 
-  PlugDetatilModel.fromJson(Map<String, dynamic> json)
+  PlugDetailModel.fromJson(Map<String, dynamic> json)
       : plugId = json['plugId'],
         plugName = json['plugName'],
         toggle = json['toggle'],

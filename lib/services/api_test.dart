@@ -4,16 +4,16 @@ import 'package:webclient/models/plug_detail_model.dart';
 import 'package:webclient/services/data_test.dart';
 
 class ApiTest {
-  static Future<PlugDetatilModel> testGetPlugById(int id) async {
+  static Future<PlugDetailModel> testGetPlugById(int id) async {
     Map<String, dynamic> plugDataById =
         dummyDataPlugDetail.firstWhere((e) => e['plugId'] == id);
-    return PlugDetatilModel.fromJson(plugDataById);
+    return PlugDetailModel.fromJson(plugDataById);
   }
 
-  static Future<PlugDetatilModel> testGetPlugChangedById(int id) async {
+  static Future<PlugDetailModel> testGetPlugChangedById(int id) async {
     Map<String, dynamic> plugDataById =
         dummyDataChanged.firstWhere((e) => e['plugId'] == id);
-    return PlugDetatilModel.fromJson(plugDataById);
+    return PlugDetailModel.fromJson(plugDataById);
   }
 
   static Future<List<MenuModel>> testGetMenu() async {

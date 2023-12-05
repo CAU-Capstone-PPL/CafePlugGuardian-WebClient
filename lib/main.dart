@@ -42,16 +42,14 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => const LoginScreen(),
-          '/home': (context) => const HomeScreen(
-                plugId: 101,
-              ),
+          '/home': (context) => const HomeScreen(plugId: 1),
           '/signup': (context) => SignUpScreen(),
           '/pinInput': (context) => const PinInputScreen(),
-          '/alert': (context) => const AlertScreen(),
+          '/alert': (context) => AlertScreen(plugId: 1),
           '/help': (context) => const HelpScreen(),
           '/maileage': (context) => const MaileageScreen(),
           '/end': (context) => const EndScreen(),
-          '/shop': (context) => const ShopScreen(),
+          '/shop': (context) => ShopScreen(plugId: 1),
         },
       ),
     );

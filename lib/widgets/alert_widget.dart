@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:webclient/models/date_time_model.dart';
+import 'package:webclient/provider/plug_information_provider.dart';
+import 'package:webclient/services/api_service.dart';
 import 'package:webclient/style.dart';
 import 'package:webclient/widgets/custom_button_widget.dart';
 
@@ -114,6 +117,7 @@ class PowerExhaustAlert extends StatelessWidget {
                 content: '충전',
                 onPressed: () {
                   //오너체크 바꾸기
+
                   //충전하는 곳으로 가기
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/pinInput');
@@ -193,6 +197,7 @@ class NotAllowAlert extends StatelessWidget {
             CustomSmallButton(
               content: '다시 연결',
               onPressed: () {
+                var result = ApiService.patchPlugOn(101);
                 //다시 연결
               },
             )

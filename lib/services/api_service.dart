@@ -84,4 +84,24 @@ class ApiService {
 
     return json['success'];
   }
+
+  static Future<bool> patchPlugOn(int plugId) async {
+    final url = Uri.parse('$baseUrl/plug/$plugId/turnOn');
+    final response = await http.patch(url);
+
+    if (response.statusCode != 200) {
+      return false;
+    }
+    return true;
+  }
+
+  static Future<bool> patchPlugOff(int plugId) async {
+    final url = Uri.parse('$baseUrl/plug/$plugId/turnOff');
+    final response = await http.patch(url);
+
+    if (response.statusCode != 200) {
+      return false;
+    }
+    return true;
+  }
 }

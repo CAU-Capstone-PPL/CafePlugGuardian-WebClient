@@ -104,4 +104,41 @@ class ApiService {
     }
     return true;
   }
+
+  //get 마일리지
+  static Future<int> getMileage(int userId) async {
+    final url = Uri.parse('$baseUrl/url 미정');
+    final response = await http.get(url);
+
+    if (response.statusCode != 200) {
+      final dynamic json = jsonDecode(response.body);
+      final String errorMessage = json['message'] ?? 'An error occurred';
+      throw Exception(errorMessage);
+    }
+    final dynamic json = jsonDecode(response.body);
+    return json['mileage'];
+  }
+
+  //patch 마일리지
+  static Future<bool> patchMileage(int userId, int mileage) async {
+    final url = Uri.parse('$baseUrl/url 미정');
+    final body = {
+      'userId': userId,
+      'maleage': mileage,
+    };
+    final response = await http.patch(url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: body);
+
+    if (response.statusCode != 200) {
+      final dynamic json = jsonDecode(response.body);
+      final String errorMessage = json['message'] ?? 'An error occurred';
+      throw Exception(errorMessage);
+    }
+    final dynamic json = jsonDecode(response.body);
+    return json['success'];
+    //get 사장님 상점 메뉴 리스트
+  }
 }

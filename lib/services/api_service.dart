@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:webclient/models/alert_model.dart';
+import 'package:webclient/models/menu_model.dart';
 import 'package:webclient/models/user_model.dart';
 
 class ApiService {
@@ -147,5 +149,37 @@ class ApiService {
     return json['success'];
   }
 
+  //손님용 웹 플러그 차단 로그 (get)
+  static Future<List<AlertModel>> getAlertListById(int plugId) async {
+    final url = Uri.parse('$baseUrl/plug/$plugId/plugOffLog');
+    final response = await http.get(url);
+    if (response.statusCode != 200) {
+      final dynamic json = jsonDecode(response.body);
+      final String errorMessage = json['message'] ?? 'An error occurred';
+      throw Exception(errorMessage);
+    }
+    final dynamic body = jsonDecode(response.body);
+    final List<dynamic> alerts = body['result'];
+    final List<AlertModel> alertInstance =
+        alerts.map((alert) => AlertModel.fromJson(alert)).toList();
+
+    return alertInstance;
+  }
+
   //get 사장님 상점 메뉴 리스트
+  static Future<List<MenuModel>> getMenuList(int plugId) async {
+    final url = Uri.parse('$baseUrl/url 미정');
+    final response = await http.get(url);
+    if (response.statusCode != 200) {
+      final dynamic json = jsonDecode(response.body);
+      final String errorMessage = json['message'] ?? 'An error occurred';
+      throw Exception(errorMessage);
+    }
+    final dynamic body = jsonDecode(response.body);
+    final List<dynamic> menuList = body['result'];
+    final List<MenuModel> menuInstance =
+        menuList.map((alert) => MenuModel.fromJson(alert)).toList();
+
+    return menuInstance;
+  }
 }

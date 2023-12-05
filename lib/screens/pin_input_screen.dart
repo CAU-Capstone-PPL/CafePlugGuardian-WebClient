@@ -20,6 +20,16 @@ class _PinInputScreenState extends State<PinInputScreen> {
     _pinNumber = ApiService.issuedPinNumber(1);
   }
 
+  void _showErrorSnackBar(BuildContext context, String errorMessage) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(errorMessage),
+        duration: const Duration(seconds: 3), // Adjust the duration as needed
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
   void _onNextPressed() async {
     int pinNumber = int.parse(_pinNumberController.text);
     try {
@@ -28,21 +38,7 @@ class _PinInputScreenState extends State<PinInputScreen> {
       }
     } catch (e) {
       final errorMessage = e.toString();
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const HeadingText(content: 'Error'),
-          content: BoldText(content: errorMessage),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      );
+      _showErrorSnackBar(context, errorMessage);
     }
   }
 
@@ -63,6 +59,7 @@ class _PinInputScreenState extends State<PinInputScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 FutureBuilder(
                   future: _pinNumber,
@@ -73,7 +70,8 @@ class _PinInputScreenState extends State<PinInputScreen> {
                   height: 40,
                 ),
                 const SizedBox(height: 20.0),
-                const HeadingText(content: '핀 번호를 입력하시면\n전력량이 충전됩니다'),
+                const HeadingText(
+                    content: '주문하시고 영수증에 출력된\n핀 번호를 입력하시면\n전력량이 충전됩니다'),
                 const SizedBox(height: 20.0),
                 TextField(
                   controller: _pinNumberController,

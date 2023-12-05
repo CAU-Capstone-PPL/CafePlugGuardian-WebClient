@@ -18,11 +18,19 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late Timer _timer;
+  late String name;
 
   @override
   void initState() {
     super.initState();
     _startTimer();
+    if (context.read<UserProvider>().isAuthenticated) {
+      name = context.read<UserProvider>().user!.userName;
+    } else if (context.read<UserProvider>().isUnMember) {
+      Random random = Random();
+
+      name = '손님 ${random.nextInt(9999) + 1}';
+    }
     //plug = ApiPlug.getPlugById(widget.id);
   }
 
@@ -56,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
         automaticallyImplyLeading: false,
         backgroundColor: AppColor.background,
         title: AppBarText(
-          content: context.read<UserProvider>().user?.userName ?? '아무개씨',
+          content: name,
         ),
         actions: [
           if (context.read<UserProvider>().isAuthenticated)

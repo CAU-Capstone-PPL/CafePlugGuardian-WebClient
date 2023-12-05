@@ -90,9 +90,12 @@ class ApiService {
     final response = await http.patch(url);
 
     if (response.statusCode != 200) {
-      return false;
+      final dynamic json = jsonDecode(response.body);
+      final String errorMessage = json['message'] ?? 'An error occurred';
+      throw Exception(errorMessage);
     }
-    return true;
+    final dynamic json = jsonDecode(response.body);
+    return json['success'];
   }
 
   static Future<bool> patchPlugOff(int plugId) async {
@@ -100,9 +103,12 @@ class ApiService {
     final response = await http.patch(url);
 
     if (response.statusCode != 200) {
-      return false;
+      final dynamic json = jsonDecode(response.body);
+      final String errorMessage = json['message'] ?? 'An error occurred';
+      throw Exception(errorMessage);
     }
-    return true;
+    final dynamic json = jsonDecode(response.body);
+    return json['success'];
   }
 
   //get 마일리지
@@ -139,6 +145,7 @@ class ApiService {
     }
     final dynamic json = jsonDecode(response.body);
     return json['success'];
-    //get 사장님 상점 메뉴 리스트
   }
+
+  //get 사장님 상점 메뉴 리스트
 }

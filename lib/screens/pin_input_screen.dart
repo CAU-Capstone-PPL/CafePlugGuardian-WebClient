@@ -72,8 +72,10 @@ class _PinInputScreenState extends State<PinInputScreen> {
               children: [
                 FutureBuilder(
                   future: _pinNumber,
-                  builder: (context, snapshot) =>
-                      BoldText(content: '${snapshot.data}'),
+                  builder: (context, snapshot) => BoldText(
+                      content: snapshot.hasData
+                          ? '${snapshot.data}'
+                          : '핀 번호 발급 중...'),
                 ),
                 const SizedBox(
                   height: 40,

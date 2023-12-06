@@ -28,8 +28,9 @@ class _HomeScreenState extends State<HomeScreen> {
     if (context.read<UserProvider>().isAuthenticated) {
       name = '${context.read<UserProvider>().user!.userName} 님';
     } else if (!context.read<UserProvider>().isUnUser) {
-      Random random = Random();
-      name = '손님 ${random.nextInt(9999) + 1}';
+      name = context.read<UserProvider>().unMemberName!;
+    } else {
+      Navigator.popUntil(context, (route) => route.isFirst);
     }
     //plug = ApiPlug.getPlugById(widget.id);
   }

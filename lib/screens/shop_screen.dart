@@ -21,6 +21,7 @@ class _ShopScreenState extends State<ShopScreen> {
   @override
   void initState() {
     super.initState();
+    menuList = ApiService.getMenuList(widget.plugId);
     //menuList = ApiTest.testGetMenu();
     context
         .read<UserProvider>()

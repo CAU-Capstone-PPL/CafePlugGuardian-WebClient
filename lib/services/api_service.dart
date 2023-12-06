@@ -4,7 +4,6 @@ import 'package:webclient/models/alert_model.dart';
 import 'package:webclient/models/menu_model.dart';
 import 'package:webclient/models/plug_detail_model.dart';
 import 'package:webclient/models/user_model.dart';
-import 'package:webclient/provider/plug_information_provider.dart';
 
 class ApiService {
   static const String baseUrl = 'http://43.202.29.19/api';
@@ -49,7 +48,6 @@ class ApiService {
           'Content-Type': 'application/json',
         },
         body: body);
-    print(response.statusCode);
     if (response.statusCode != 200) {
       final dynamic json = jsonDecode(response.body);
       final String errorMessage = json['message'] ?? 'An error occurred';
@@ -64,7 +62,6 @@ class ApiService {
   static Future<int> issuedPinNumber(int cafeId) async {
     final url = Uri.parse('$baseUrl/cafe/$cafeId/pin');
     final response = await http.post(url);
-    print(response.statusCode);
     if (response.statusCode != 200) {
       throw Error();
     }

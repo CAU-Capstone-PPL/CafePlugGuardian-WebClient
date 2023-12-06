@@ -101,7 +101,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     context.read<UserProvider>().login(user);
                     _userAccountController.clear();
                     _userPwController.clear();
-                    Navigator.pushNamed(context, '/pinInput');
+                    Navigator.pushNamed(context, '/pinInput')
+                        .then((_) => context.read<UserProvider>().logout());
                   } catch (e) {
                     final errorMessage = e.toString();
                     _showErrorSnackBar(context, errorMessage);

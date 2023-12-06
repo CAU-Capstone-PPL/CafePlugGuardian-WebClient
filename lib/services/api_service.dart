@@ -199,7 +199,7 @@ class ApiService {
 
   //get 사장님 상점 메뉴 리스트
   static Future<List<MenuModel>> getMenuList(int plugId) async {
-    final url = Uri.parse('$baseUrl/url 미정');
+    final url = Uri.parse('$baseUrl/mileage/menu?plugId=$plugId');
     final response = await http.get(url);
     if (response.statusCode != 200) {
       final dynamic json = jsonDecode(response.body);

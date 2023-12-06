@@ -19,6 +19,21 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _userPwController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  void _showErrorSnackBar(BuildContext context, String errorMessage) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(errorMessage),
+        duration: const Duration(seconds: 3),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.background,
@@ -89,21 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Navigator.pushNamed(context, '/pinInput');
                   } catch (e) {
                     final errorMessage = e.toString();
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: const HeadingText(content: 'Login Error'),
-                        content: BoldText(content: errorMessage),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text('OK'),
-                          ),
-                        ],
-                      ),
-                    );
+                    _showErrorSnackBar(context, errorMessage);
                   }
                 },
               ),
@@ -112,6 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               OutlinedButton(
                   onPressed: () {
+                    context.read<UserProvider>().unMemberlogin();
                     Navigator.pushNamed(context, '/pinInput');
                   },
                   style: OutlinedButton.styleFrom(

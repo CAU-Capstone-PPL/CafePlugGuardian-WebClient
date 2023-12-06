@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:webclient/models/menu_model.dart';
 import 'package:webclient/provider/user_provider.dart';
+import 'package:webclient/services/api_service.dart';
 import 'package:webclient/services/api_test.dart';
 import 'package:webclient/style.dart';
 import 'package:webclient/widgets/menu_widget.dart';
 
 class ShopScreen extends StatefulWidget {
-  const ShopScreen({super.key});
+  int plugId;
+  ShopScreen({super.key, required this.plugId});
 
   @override
   State<ShopScreen> createState() => _ShopScreenState();
@@ -19,7 +21,20 @@ class _ShopScreenState extends State<ShopScreen> {
   @override
   void initState() {
     super.initState();
-    menuList = ApiTest.testGetMenu();
+    //menuList = ApiTest.testGetMenu();
+    context
+        .read<UserProvider>()
+        .getMaileage(context.read<UserProvider>().user!.userId);
+  }
+
+  void _showErrorSnackBar(BuildContext context, String errorMessage) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(errorMessage),
+        duration: const Duration(seconds: 3),
+        backgroundColor: Colors.red,
+      ),
+    );
   }
 
   @override
@@ -130,7 +145,20 @@ class _ShopScreenState extends State<ShopScreen> {
                                     TextButton(
                                       onPressed: () {
                                         //구매
-
+                                        if (context
+                                                .read<UserProvider>()
+                                                .mailleage <
+                                            menu.price) {
+                                          _showErrorSnackBar(
+                                              context, '마일리지가 부족합니다.');
+                                          return;
+                                        }
+                                        context
+                                            .read<UserProvider>()
+                                            .updateMaileage(context
+                                                    .read<UserProvider>()
+                                                    .mailleage -
+                                                menu.price);
                                         Navigator.of(context).pop();
                                       },
                                       child: const Text('구매'),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:webclient/models/date_time_model.dart';
+import 'package:webclient/provider/plug_information_provider.dart';
+import 'package:webclient/services/api_service.dart';
 import 'package:webclient/style.dart';
 import 'package:webclient/widgets/custom_button_widget.dart';
 
@@ -40,7 +43,7 @@ class Alert extends StatelessWidget {
               vertical: 10,
               horizontal: 20,
             ),
-            child: NotAllowAlert(plugOffTime: plugOffTime),
+            child: NotAllowAlert(plugId: plugId, plugOffTime: plugOffTime),
           ),
         ),
       );
@@ -64,7 +67,7 @@ class Alert extends StatelessWidget {
             vertical: 10,
             horizontal: 20,
           ),
-          child: PowerExhaustAlert(plugOffTime: plugOffTime),
+          child: PowerExhaustAlert(plugId: plugId, plugOffTime: plugOffTime),
         ),
       ),
     );
@@ -72,8 +75,10 @@ class Alert extends StatelessWidget {
 }
 
 class PowerExhaustAlert extends StatelessWidget {
+  int plugId;
   DateTimeModel plugOffTime;
-  PowerExhaustAlert({super.key, required this.plugOffTime});
+  PowerExhaustAlert(
+      {super.key, required this.plugId, required this.plugOffTime});
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +118,6 @@ class PowerExhaustAlert extends StatelessWidget {
             CustomSmallButton(
                 content: '충전',
                 onPressed: () {
-                  //오너체크 바꾸기
                   //충전하는 곳으로 가기
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/pinInput');
@@ -126,8 +130,9 @@ class PowerExhaustAlert extends StatelessWidget {
 }
 
 class NotAllowAlert extends StatelessWidget {
+  int plugId;
   DateTimeModel plugOffTime;
-  NotAllowAlert({super.key, required this.plugOffTime});
+  NotAllowAlert({super.key, required this.plugId, required this.plugOffTime});
 
   @override
   Widget build(BuildContext context) {
@@ -193,6 +198,13 @@ class NotAllowAlert extends StatelessWidget {
             CustomSmallButton(
               content: '다시 연결',
               onPressed: () {
+                try {
+                  ApiService.patchPlugOn(plugId);
+                } catch (e) {
+                  final errorMessage = e.toString();
+                  _showErrorSnackBar(context, errorMessage);
+                }
+
                 //다시 연결
               },
             )
@@ -201,4 +213,14 @@ class NotAllowAlert extends StatelessWidget {
       ],
     );
   }
+}
+
+void _showErrorSnackBar(BuildContext context, String errorMessage) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(errorMessage),
+      duration: const Duration(seconds: 3),
+      backgroundColor: Colors.red,
+    ),
+  );
 }

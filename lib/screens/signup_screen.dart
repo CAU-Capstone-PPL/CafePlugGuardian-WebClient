@@ -10,6 +10,16 @@ class SignUpScreen extends StatelessWidget {
 
   SignUpScreen({super.key});
 
+  void _showErrorSnackBar(BuildContext context, String errorMessage) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(errorMessage),
+        duration: const Duration(seconds: 3), // Adjust the duration as needed
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,21 +89,7 @@ class SignUpScreen extends StatelessWidget {
                     }
                   } catch (e) {
                     final errorMessage = e.toString();
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: const HeadingText(content: 'SignUp Error'),
-                        content: BoldText(content: errorMessage),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text('OK'),
-                          ),
-                        ],
-                      ),
-                    );
+                    _showErrorSnackBar(context, errorMessage);
                   }
                 },
               ),

@@ -26,8 +26,8 @@ class PlugDetailModel {
         useStatus = json['useStatus'],
         startTime = TimeModel.fromJson(json['startTime']),
         runningTime = TimeModel.fromJson(json['runningTime']),
-        usedPower = json['usedPower'],
-        assignPower = json['assignPower'],
+        usedPower = json['usedPower'].toDouble(),
+        assignPower = json['assignPower'].toDouble(),
         plugDescription = json['plugDescription'],
-        realTimePower = json['realTimePower'];
+        realTimePower = json['realTimePower'].toDouble();
 }

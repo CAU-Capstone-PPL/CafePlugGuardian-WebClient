@@ -18,6 +18,11 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _userAccountController = TextEditingController();
   final TextEditingController _userPwController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   void _showErrorSnackBar(BuildContext context, String errorMessage) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -108,6 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               OutlinedButton(
                   onPressed: () {
+                    context.read<UserProvider>().unMemberlogin();
                     Navigator.pushNamed(context, '/pinInput');
                   },
                   style: OutlinedButton.styleFrom(

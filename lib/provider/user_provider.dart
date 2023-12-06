@@ -3,27 +3,36 @@ import 'package:webclient/models/user_model.dart';
 import 'package:webclient/services/api_service.dart';
 
 class UserProvider extends ChangeNotifier {
-  final int _plugId = 101;
+  int? _plugId;
   UserModel? _user;
   int _maileage = 0;
-  bool _isUnMember = false;
+  //bool _isUnMember = false;
+  bool _isUnUser = true;
 
   UserModel? get user => _user;
   int get mailleage => _maileage;
-  int get plugId => _plugId;
-  bool get isUnMember => _isUnMember;
+  int? get plugId => _plugId;
+  //bool get isUnMember => _isUnMember;
+  bool get isUnUser => _isUnUser;
 
   bool get isAuthenticated => _user != null;
 
   void login(UserModel user) {
     _user = user;
-    _isUnMember = false;
+    //_isUnMember = false;
+    _isUnUser = false;
+    notifyListeners();
+  }
+
+  void unMemberlogin() {
+    //비회원
+    _isUnUser = false;
     notifyListeners();
   }
 
   void logout() {
     _user = null;
-    _isUnMember = true;
+    _isUnUser = false;
     notifyListeners();
   }
 
@@ -34,6 +43,11 @@ class UserProvider extends ChangeNotifier {
 
   void getMaileage(int userId) async {
     _maileage = await ApiService.getMileage(userId);
+    notifyListeners();
+  }
+
+  void updatePlugId(int plugId) {
+    _plugId = plugId;
     notifyListeners();
   }
 }

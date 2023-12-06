@@ -40,15 +40,15 @@ class _PinInputScreenState extends State<PinInputScreen> {
       return;
     }
     int pinNumber = int.parse(pinString);
-    Navigator.pushNamed(context, '/home'); //Test Code
-    /*try {
+    //Navigator.pushNamed(context, '/home'); //Test Code
+    try {
       if (await ApiService.chargePower(1, pinNumber)) {
         Navigator.pushNamed(context, '/home');
       }
     } catch (e) {
       final errorMessage = e.toString();
       _showErrorSnackBar(context, errorMessage);
-    }*/
+    }
   }
 
   @override

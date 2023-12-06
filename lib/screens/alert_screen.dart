@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:webclient/models/alert_model.dart';
 import 'package:webclient/provider/alert_provider.dart';
-import 'package:webclient/provider/user_provider.dart';
 import 'package:webclient/services/api_test.dart';
 import 'package:webclient/style.dart';
 import 'package:webclient/widgets/alert_widget.dart';

@@ -5,6 +5,7 @@ import 'package:webclient/provider/plug_information_provider.dart';
 import 'package:webclient/provider/user_provider.dart';
 import 'package:webclient/screens/alert_screen.dart';
 import 'package:webclient/screens/end_screen.dart';
+import 'package:webclient/screens/extension_pin_input_screen.dart';
 import 'package:webclient/screens/help_screen.dart';
 import 'package:webclient/screens/home_screen.dart';
 import 'package:webclient/screens/login_page.dart';
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
           '/home': (context) => const HomeScreen(plugId: 1),
           '/signup': (context) => SignUpScreen(),
           '/pinInput': (context) => const PinInputScreen(),
+          '/rePinInput': (context) => const ExtensionPinInputScreen(),
           '/alert': (context) => AlertScreen(plugId: 1),
           '/help': (context) => const HelpScreen(),
           '/maileage': (context) => const MaileageScreen(),

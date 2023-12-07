@@ -16,7 +16,7 @@ class AlertProvider extends ChangeNotifier {
   }
 
   void onToggle(int plugId) async {
-    if (await ApiService.patchPlugOn(plugId)) {
+    if (await ApiService.patchPlugOn(plugId) == 'ON') {
       updateAlert(plugId);
     } else {}
   }

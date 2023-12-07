@@ -87,7 +87,7 @@ class ApiService {
   }
 
   //토글 on
-  static Future<bool> patchPlugOn(int plugId) async {
+  static Future<String> patchPlugOn(int plugId) async {
     final url = Uri.parse('$baseUrl/plug/$plugId/turnOn');
     final response = await http.patch(url);
 
@@ -97,11 +97,12 @@ class ApiService {
       throw Exception(errorMessage);
     }
     final dynamic json = jsonDecode(response.body);
-    return json['success'];
+    final dynamic result = json['result'];
+    return result['toggle'];
   }
 
   //토클 off
-  static Future<bool> patchPlugOff(int plugId) async {
+  static Future<String> patchPlugOff(int plugId) async {
     final url = Uri.parse('$baseUrl/plug/$plugId/turnOff');
     final response = await http.patch(url);
 
@@ -111,7 +112,8 @@ class ApiService {
       throw Exception(errorMessage);
     }
     final dynamic json = jsonDecode(response.body);
-    return json['success'];
+    final dynamic result = json['result'];
+    return result['toggle'];
   }
 
   //플러그 고객 사용
@@ -134,10 +136,50 @@ class ApiService {
     return json['success'];
   }
 
+  //플러그 고객 사용
+  static Future<bool> extendChargePower(int plugId, int pinNumber) async {
+    final url = Uri.parse('$baseUrl/plug/$plugId/use');
+    final body = {'pinNumber': pinNumber};
+    final response = await http.patch(url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(body));
+
+    if (response.statusCode != 200) {
+      final dynamic json = jsonDecode(response.body);
+      final String errorMessage = json['message'] ?? 'An error occurred';
+      throw Exception(errorMessage);
+    }
+    final Map<String, dynamic> json = jsonDecode(response.body);
+
+    return json['success'];
+  }
+
   //플러그 사용 종료
   static Future<bool> stopService(int plugId) async {
     final url = Uri.parse('$baseUrl/plug/$plugId/stop');
     final response = await http.patch(url);
+
+    if (response.statusCode != 200) {
+      final dynamic json = jsonDecode(response.body);
+      final String errorMessage = json['message'] ?? 'An error occurred';
+      throw Exception(errorMessage);
+    }
+    final dynamic json = jsonDecode(response.body);
+    return json['success'];
+  }
+
+  //손님용 앱 플러그 차단 로그 확인 완료
+  static Future<bool> patchCustomerCheck(int plugOffLogId) async {
+    final url = Uri.parse('$baseUrl/log/customerCheck');
+    final data = {'plugOffLogId': plugOffLogId};
+
+    final response = await http.patch(url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(data));
 
     if (response.statusCode != 200) {
       final dynamic json = jsonDecode(response.body);
@@ -185,6 +227,24 @@ class ApiService {
 
     final response = await http.patch(url,
         headers: {'Content-Type': 'application/json', 'Authorization': token});
+
+    if (response.statusCode != 200) {
+      final dynamic json = jsonDecode(response.body);
+      final String errorMessage = json['message'] ?? 'An error occurred';
+      throw Exception(errorMessage);
+    }
+    final dynamic json = jsonDecode(response.body);
+    return json['success'];
+  }
+
+  //잔여 전력 마일리지 전환
+  static Future<bool> earnMileage(String token, int plugId, int mileage) async {
+    final url = Uri.parse('$baseUrl/mileage/remainPower');
+    final body = {"plugId": plugId, "mileage": mileage};
+
+    final response = await http.patch(url,
+        headers: {'Content-Type': 'application/json', 'Authorization': token},
+        body: jsonEncode(body));
 
     if (response.statusCode != 200) {
       final dynamic json = jsonDecode(response.body);

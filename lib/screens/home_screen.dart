@@ -208,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     children: [
                                       TitleText(
                                           content:
-                                              '${context.watch<PlugInformationProvider>().plug.usedPower} / ${context.watch<PlugInformationProvider>().plug.assignPower}'),
+                                              '${context.watch<PlugInformationProvider>().plug.usedPower.toStringAsFixed(1)} / ${context.watch<PlugInformationProvider>().plug.assignPower.toStringAsFixed(1)}'),
                                     ],
                                   )
                                 ],
@@ -224,8 +224,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               const NormalText(content: '총 전력량'),
                               const SizedBox(width: 10),
                               BoldText(
-                                  content:
-                                      '${context.watch<PlugInformationProvider>().plug.assignPower}'),
+                                  content: context
+                                      .watch<PlugInformationProvider>()
+                                      .plug
+                                      .assignPower
+                                      .toStringAsFixed(1)),
                               const SizedBox(width: 2),
                               const CaptionText(content: 'Wh'),
                             ],
@@ -236,8 +239,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               const NormalText(content: '남은 전력량'),
                               const SizedBox(width: 10),
                               BoldText(
-                                  content:
-                                      '${context.watch<PlugInformationProvider>().plug.assignPower - context.watch<PlugInformationProvider>().plug.usedPower}'),
+                                  content: (context
+                                              .watch<PlugInformationProvider>()
+                                              .plug
+                                              .assignPower -
+                                          context
+                                              .watch<PlugInformationProvider>()
+                                              .plug
+                                              .usedPower)
+                                      .toStringAsFixed(1)),
                               const SizedBox(width: 2),
                               const CaptionText(content: 'Wh'),
                             ],
@@ -248,8 +258,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               const NormalText(content: '실시간 전력량'),
                               const SizedBox(width: 10),
                               BoldText(
-                                  content:
-                                      '${context.watch<PlugInformationProvider>().plug.realTimePower}'),
+                                  content: context
+                                      .watch<PlugInformationProvider>()
+                                      .plug
+                                      .realTimePower
+                                      .toStringAsFixed(1)),
                               const SizedBox(width: 2),
                               const CaptionText(content: 'W'),
                             ],
@@ -283,7 +296,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   content: '충전하러 가기',
                   onPressed: () {
                     _stopTimer();
-                    Navigator.pushNamed(context, '/pinInput')
+                    Navigator.pushNamed(context, '/rePinInput')
                         .then((_) => _startTimer());
                   },
                 ),

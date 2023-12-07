@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:webclient/provider/plug_information_provider.dart';
 import 'package:webclient/provider/user_provider.dart';
+import 'package:webclient/services/api_service.dart';
 import 'package:webclient/style.dart';
 import 'package:webclient/widgets/custom_button_widget.dart';
 
@@ -13,6 +14,16 @@ class MaileageScreen extends StatefulWidget {
 }
 
 class _MaileageScreenState extends State<MaileageScreen> {
+  void _showErrorSnackBar(BuildContext context, String errorMessage) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(errorMessage),
+        duration: const Duration(seconds: 3),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     int currentMileage = context.read<UserProvider>().mailleage;
@@ -87,7 +98,13 @@ class _MaileageScreenState extends State<MaileageScreen> {
             CustomButton(
               content: '적립 후 종료하기',
               onPressed: () {
-                //마일리지 적립
+                try {
+                  ApiService.earnMileage(
+                      context.read<UserProvider>().user!.token, 1, addMileage);
+                } catch (e) {
+                  final errorMessage = e.toString();
+                  _showErrorSnackBar(context, errorMessage);
+                }
                 context.read<UserProvider>().logout();
                 Navigator.pushNamed(context, '/end');
               },

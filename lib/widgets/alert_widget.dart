@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:webclient/models/date_time_model.dart';
+import 'package:webclient/provider/alert_provider.dart';
 import 'package:webclient/services/api_service.dart';
 import 'package:webclient/style.dart';
 import 'package:webclient/widgets/custom_button_widget.dart';
 
-class Alert extends StatelessWidget {
+class Alert extends StatefulWidget {
   final int plugUseId, plugOffLogId, plugId;
   final String plugName, type;
   final DateTimeModel plugOffTime;
@@ -22,10 +24,15 @@ class Alert extends StatelessWidget {
       required this.isToggleOn});
 
   @override
+  State<Alert> createState() => _AlertState();
+}
+
+class _AlertState extends State<Alert> {
+  @override
   Widget build(BuildContext context) {
-    if (type == 'Blocking') {
+    if (widget.type == 'Blocking') {
       return Opacity(
-        opacity: isToggleOn ? 0.5 : 1,
+        opacity: widget.isToggleOn ? 0.5 : 1,
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -43,13 +50,17 @@ class Alert extends StatelessWidget {
               vertical: 10,
               horizontal: 20,
             ),
-            child: NotAllowAlert(plugId: plugId, plugOffTime: plugOffTime),
+            child: NotAllowAlert(
+              plugId: widget.plugId,
+              plugOffTime: widget.plugOffTime,
+              plugOffLogId: widget.plugOffLogId,
+            ),
           ),
         ),
       );
     }
     return Opacity(
-      opacity: ownerCheck ? 0.5 : 1,
+      opacity: widget.ownerCheck ? 0.5 : 1,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -67,7 +78,11 @@ class Alert extends StatelessWidget {
             vertical: 10,
             horizontal: 20,
           ),
-          child: PowerExhaustAlert(plugId: plugId, plugOffTime: plugOffTime),
+          child: PowerExhaustAlert(
+            plugId: widget.plugId,
+            plugOffTime: widget.plugOffTime,
+            plugOffLogId: widget.plugOffLogId,
+          ),
         ),
       ),
     );
@@ -77,8 +92,13 @@ class Alert extends StatelessWidget {
 class PowerExhaustAlert extends StatelessWidget {
   int plugId;
   DateTimeModel plugOffTime;
+  int plugOffLogId;
+
   PowerExhaustAlert(
-      {super.key, required this.plugId, required this.plugOffTime});
+      {super.key,
+      required this.plugId,
+      required this.plugOffTime,
+      required this.plugOffLogId});
 
   @override
   Widget build(BuildContext context) {
@@ -119,8 +139,14 @@ class PowerExhaustAlert extends StatelessWidget {
                 content: '충전',
                 onPressed: () {
                   //충전하는 곳으로 가기
-                  Navigator.pop(context);
-                  Navigator.pushNamed(context, '/pinInput');
+                  try {
+                    ApiService.patchCustomerCheck(plugOffLogId);
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/pinInput');
+                  } catch (e) {
+                    final errorMessage = e.toString();
+                    _showErrorSnackBar(context, errorMessage);
+                  }
                 })
           ],
         ),
@@ -132,7 +158,12 @@ class PowerExhaustAlert extends StatelessWidget {
 class NotAllowAlert extends StatelessWidget {
   int plugId;
   DateTimeModel plugOffTime;
-  NotAllowAlert({super.key, required this.plugId, required this.plugOffTime});
+  int plugOffLogId;
+  NotAllowAlert(
+      {super.key,
+      required this.plugId,
+      required this.plugOffTime,
+      required this.plugOffLogId});
 
   @override
   Widget build(BuildContext context) {
@@ -185,10 +216,7 @@ class NotAllowAlert extends StatelessWidget {
                       ),
                       actions: [
                         TextButton(
-                          onPressed: () {
-                            //추가
-                            Navigator.of(context).pop();
-                          },
+                          onPressed: () {},
                           child: const Text('확인'),
                         ),
                       ],
@@ -199,13 +227,14 @@ class NotAllowAlert extends StatelessWidget {
               content: '다시 연결',
               onPressed: () {
                 try {
+                  ApiService.patchCustomerCheck(plugOffLogId);
                   ApiService.patchPlugOn(plugId);
+                  context.read<AlertProvider>().updateAlert(plugId);
+                  Navigator.pop(context);
                 } catch (e) {
                   final errorMessage = e.toString();
                   _showErrorSnackBar(context, errorMessage);
                 }
-
-                //다시 연결
               },
             )
           ],

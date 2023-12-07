@@ -11,13 +11,13 @@ class PinInputScreen extends StatefulWidget {
 }
 
 class _PinInputScreenState extends State<PinInputScreen> {
-  late final _pinNumber;
+  int _pinNumber = 0;
   final TextEditingController _pinNumberController = TextEditingController();
+  final TextEditingController _countController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _pinNumber = ApiService.issuedPinNumber(1);
   }
 
   void _showErrorSnackBar(BuildContext context, String errorMessage) {
@@ -70,12 +70,47 @@ class _PinInputScreenState extends State<PinInputScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                FutureBuilder(
-                  future: _pinNumber,
-                  builder: (context, snapshot) => BoldText(
-                      content: snapshot.hasData
-                          ? '${snapshot.data}'
-                          : '핀 번호 발급 중...'),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _countController,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          labelText: '메뉴 개수',
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.all(12.0),
+                        ),
+                      ),
+                    ),
+                    CustomButton(
+                        content: '발급',
+                        onPressed: () async {
+                          String countString = _countController.text.trim();
+                          if (countString.isEmpty) {
+                            _showErrorSnackBar(
+                                context, 'Please enter a count.');
+                            return;
+                          } else if (!RegExp(r'^[0-9]+$')
+                              .hasMatch(countString)) {
+                            _showErrorSnackBar(
+                                context, 'Please enter a valid number.');
+                            return;
+                          }
+                          int count = int.parse(countString);
+                          try {
+                            _pinNumber =
+                                await ApiService.issuedPinNumber(1, count);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text('Generated Pin: $_pinNumber')),
+                            );
+                          } catch (e) {
+                            final errorMessage = e.toString();
+                            _showErrorSnackBar(context, errorMessage);
+                          }
+                        }),
+                  ],
                 ),
                 const SizedBox(
                   height: 40,

@@ -59,11 +59,13 @@ class ApiService {
   }
 
   //핀 번호 발급
-  static Future<int> issuedPinNumber(int cafeId) async {
-    final url = Uri.parse('$baseUrl/cafe/$cafeId/pin');
+  static Future<int> issuedPinNumber(int cafeId, int count) async {
+    final url = Uri.parse('$baseUrl/cafe/$cafeId/pin?count=$count');
     final response = await http.post(url);
     if (response.statusCode != 200) {
-      throw Error();
+      final dynamic json = jsonDecode(response.body);
+      final String errorMessage = json['message'] ?? 'An error occurred';
+      throw Exception(errorMessage);
     }
     final Map<String, dynamic> json = jsonDecode(response.body);
 
@@ -75,7 +77,9 @@ class ApiService {
     final url = Uri.parse('$baseUrl/plug/$plugId/info');
     final response = await http.get(url);
     if (response.statusCode != 200) {
-      throw Error();
+      final dynamic json = jsonDecode(response.body);
+      final String errorMessage = json['message'] ?? 'An error occurred';
+      throw Exception(errorMessage);
     }
     final Map<String, dynamic> body = jsonDecode(response.body);
 

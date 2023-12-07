@@ -1,4 +1,0 @@
-#Fri Dec 08 06:35:42 KST 2023
-base.0=/Users/sanghyeok/Desktop/캡스톤/CafePlugGuardian-WebClient/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
-path.0=classes.dex
-renamed.0=classes.dex

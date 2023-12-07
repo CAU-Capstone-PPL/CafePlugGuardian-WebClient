@@ -65,10 +65,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     double fillRatio =
-        context.watch<PlugInformationProvider>().plug!.assignPower == 0.0
-            ? context.watch<PlugInformationProvider>().plug!.assignPower
-            : context.watch<PlugInformationProvider>().plug!.usedPower /
-                context.watch<PlugInformationProvider>().plug!.assignPower;
+        context.watch<PlugInformationProvider>().plug.assignPower == 0.0
+            ? context.watch<PlugInformationProvider>().plug.assignPower
+            : context.watch<PlugInformationProvider>().plug.usedPower /
+                context.watch<PlugInformationProvider>().plug.assignPower;
     return Scaffold(
       backgroundColor: AppColor.background,
       appBar: AppBar(
@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 350,
               decoration: BoxDecoration(
                 //border: Border.all(color: AppColor.text, width: 1.5),
-                color: AppColor.background,
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   BoxShadow(
@@ -132,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         BoldText(
                             content: context
                                 .read<PlugInformationProvider>()
-                                .plug!
+                                .plug
                                 .plugName),
                         const Padding(
                           padding: EdgeInsets.all(8.0),
@@ -144,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         BoldText(
                             content: context
                                     .watch<PlugInformationProvider>()
-                                    .plug!
+                                    .plug
                                     .toggle
                                 ? 'On'
                                 : 'Off'),
@@ -154,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         CaptionText(
                           content: context
                               .read<PlugInformationProvider>()
-                              .plug!
+                              .plug
                               .plugDescription,
                         ),
                       ],
@@ -195,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 height: 140,
                                 decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: AppColor.background,
+                                  color: Colors.white,
                                 ),
                               ),
                               Column(
@@ -208,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     children: [
                                       TitleText(
                                           content:
-                                              '${context.watch<PlugInformationProvider>().plug!.usedPower} / ${context.watch<PlugInformationProvider>().plug!.assignPower}'),
+                                              '${context.watch<PlugInformationProvider>().plug.usedPower} / ${context.watch<PlugInformationProvider>().plug.assignPower}'),
                                     ],
                                   )
                                 ],
@@ -225,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(width: 10),
                               BoldText(
                                   content:
-                                      '${context.watch<PlugInformationProvider>().plug!.assignPower}'),
+                                      '${context.watch<PlugInformationProvider>().plug.assignPower}'),
                               const SizedBox(width: 2),
                               const CaptionText(content: 'Wh'),
                             ],
@@ -237,7 +237,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(width: 10),
                               BoldText(
                                   content:
-                                      '${context.watch<PlugInformationProvider>().plug!.assignPower - context.watch<PlugInformationProvider>().plug!.usedPower}'),
+                                      '${context.watch<PlugInformationProvider>().plug.assignPower - context.watch<PlugInformationProvider>().plug.usedPower}'),
                               const SizedBox(width: 2),
                               const CaptionText(content: 'Wh'),
                             ],
@@ -249,7 +249,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(width: 10),
                               BoldText(
                                   content:
-                                      '${context.watch<PlugInformationProvider>().plug!.realTimePower}'),
+                                      '${context.watch<PlugInformationProvider>().plug.realTimePower}'),
                               const SizedBox(width: 2),
                               const CaptionText(content: 'W'),
                             ],
@@ -258,9 +258,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 10,
                           ),
                           Text(
-                              '${context.watch<PlugInformationProvider>().plug!.startTime} 서비스 시작'),
+                              '${context.watch<PlugInformationProvider>().plug.startTime} 서비스 시작'),
                           Text(
-                              '${context.watch<PlugInformationProvider>().plug!.runningTime} 동안 사용 중'),
+                              '${context.watch<PlugInformationProvider>().plug.runningTime} 동안 사용 중'),
                         ],
                       ),
                     ),

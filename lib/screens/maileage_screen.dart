@@ -15,6 +15,11 @@ class MaileageScreen extends StatefulWidget {
 class _MaileageScreenState extends State<MaileageScreen> {
   @override
   Widget build(BuildContext context) {
+    int currentMileage = context.read<UserProvider>().mailleage;
+    int addMileage = (context.read<PlugInformationProvider>().plug.assignPower -
+            context.read<PlugInformationProvider>().plug.usedPower)
+        .toInt();
+    int afterMileage = currentMileage + addMileage;
     return Scaffold(
       backgroundColor: AppColor.background,
       appBar: AppBar(
@@ -56,8 +61,7 @@ class _MaileageScreenState extends State<MaileageScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const TitleText(content: '현재 마일리지:'),
-                      HeadingText(
-                          content: '${context.read<UserProvider>().mailleage}'),
+                      HeadingText(content: '$currentMileage'),
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -65,9 +69,7 @@ class _MaileageScreenState extends State<MaileageScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const TitleText(content: '남은 전력량에 따른 마일리지:'),
-                      HeadingText(
-                          content:
-                              '${(context.read<PlugInformationProvider>().plug.assignPower - context.read<PlugInformationProvider>().plug.usedPower).toInt()}'),
+                      HeadingText(content: '$addMileage'),
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -75,9 +77,7 @@ class _MaileageScreenState extends State<MaileageScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const TitleText(content: '종료 후 나의 마일리지:'),
-                      HeadingText(
-                          content:
-                              '${context.read<UserProvider>().mailleage + (context.read<PlugInformationProvider>().plug.assignPower - context.read<PlugInformationProvider>().plug.usedPower)}'),
+                      HeadingText(content: '$afterMileage'),
                     ],
                   ),
                 ],
@@ -87,15 +87,7 @@ class _MaileageScreenState extends State<MaileageScreen> {
             CustomButton(
               content: '적립 후 종료하기',
               onPressed: () {
-                context.read<UserProvider>().consumeMaileage(context
-                        .read<UserProvider>()
-                        .mailleage +
-                    (context.read<PlugInformationProvider>().plug.assignPower -
-                            context
-                                .read<PlugInformationProvider>()
-                                .plug
-                                .usedPower)
-                        .toInt());
+                //마일리지 적립
                 context.read<UserProvider>().logout();
                 Navigator.pushNamed(context, '/end');
               },

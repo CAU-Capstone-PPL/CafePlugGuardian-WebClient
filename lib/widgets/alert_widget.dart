@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:webclient/models/date_time_model.dart';
-import 'package:webclient/provider/plug_information_provider.dart';
 import 'package:webclient/services/api_service.dart';
 import 'package:webclient/style.dart';
 import 'package:webclient/widgets/custom_button_widget.dart';
 
 class Alert extends StatelessWidget {
-  final int plugId;
+  final int plugUseId, plugOffLogId, plugId;
   final String plugName, type;
   final DateTimeModel plugOffTime;
   final bool ownerCheck, isToggleOn;
@@ -15,6 +13,8 @@ class Alert extends StatelessWidget {
   const Alert(
       {super.key,
       required this.plugId,
+      required this.plugOffLogId,
+      required this.plugUseId,
       required this.plugName,
       required this.type,
       required this.plugOffTime,

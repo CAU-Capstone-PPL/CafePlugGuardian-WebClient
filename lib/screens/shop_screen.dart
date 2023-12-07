@@ -5,6 +5,7 @@ import 'package:webclient/provider/user_provider.dart';
 import 'package:webclient/services/api_service.dart';
 import 'package:webclient/services/api_test.dart';
 import 'package:webclient/style.dart';
+import 'package:webclient/widgets/custom_button_widget.dart';
 import 'package:webclient/widgets/menu_widget.dart';
 
 class ShopScreen extends StatefulWidget {
@@ -45,6 +46,13 @@ class _ShopScreenState extends State<ShopScreen> {
         title: const AppBarText(
           content: '상점',
         ),
+        actions: [
+          CustomSmallButton(
+              content: 'test',
+              onPressed: () {
+                context.read<UserProvider>().gainMileage();
+              })
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -127,10 +135,11 @@ class _ShopScreenState extends State<ShopScreen> {
                                           width: 100,
                                           height: 100,
                                         ),
-                                        NormalText(content: menu.name),
+                                        NormalText(content: menu.menuName),
                                         BoldText(
-                                            content: '${menu.price} point'),
-                                        CaptionText(content: menu.description),
+                                            content: '${menu.menuPrice} point'),
+                                        CaptionText(
+                                            content: menu.menuDescription),
                                       ],
                                     ),
                                   ),
@@ -142,22 +151,24 @@ class _ShopScreenState extends State<ShopScreen> {
                                       child: const Text('취소'),
                                     ),
                                     TextButton(
-                                      onPressed: () {
-                                        //구매
-                                        if (context
-                                                .read<UserProvider>()
-                                                .mailleage <
-                                            menu.price) {
+                                      onPressed: () async {
+                                        try {
+                                          String token = context
+                                              .read<UserProvider>()
+                                              .user!
+                                              .token;
+                                          await ApiService.consumeMileage(
+                                              token, menu.menuId);
+                                          context
+                                              .read<UserProvider>()
+                                              .getMaileage();
+                                          Navigator.pop(context);
+                                        } catch (e) {
+                                          Navigator.pop(context);
+                                          String errorMessage = e.toString();
                                           _showErrorSnackBar(
-                                              context, '마일리지가 부족합니다.');
-                                          return;
+                                              context, errorMessage);
                                         }
-                                        context
-                                            .read<UserProvider>()
-                                            .consumeMaileage(context
-                                                    .read<UserProvider>()
-                                                    .mailleage -
-                                                menu.price);
                                         Navigator.of(context).pop();
                                       },
                                       child: const Text('구매'),
@@ -167,9 +178,9 @@ class _ShopScreenState extends State<ShopScreen> {
                               );
                             },
                             child: Menu(
-                              name: menu.name,
-                              price: menu.price,
-                              description: menu.description,
+                              name: menu.menuName,
+                              price: menu.menuPrice,
+                              description: menu.menuDescription,
                             ),
                           ),
                         )

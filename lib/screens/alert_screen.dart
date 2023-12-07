@@ -45,6 +45,8 @@ class _AlertScreenState extends State<AlertScreen> {
                   var alert = context.watch<AlertProvider>().alertList![index];
                   return Alert(
                       plugId: alert.plugId,
+                      plugOffLogId: alert.plugOffLogId,
+                      plugUseId: alert.plugUseId,
                       plugName: alert.plugName,
                       type: alert.type,
                       plugOffTime: alert.plugOffTime,

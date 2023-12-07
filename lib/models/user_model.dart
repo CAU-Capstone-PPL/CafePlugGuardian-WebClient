@@ -8,5 +8,5 @@ class UserModel {
   UserModel.fromJson(Map<String, dynamic> json)
       : userId = json['userId'],
         userName = json['userName'],
-        token = 'Bearer ${json['Authoriazation']}';
+        token = 'Bearer ${json['Authorization']}';
 }

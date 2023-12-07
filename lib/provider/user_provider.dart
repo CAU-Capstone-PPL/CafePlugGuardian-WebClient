@@ -43,12 +43,12 @@ class UserProvider extends ChangeNotifier {
   }
 
   void getMaileage() async {
-    _maileage = await ApiService.getMileage(_user!.token);
+    _maileage = await ApiService.getMileage(_user!.token, 1);
     notifyListeners();
   }
 
-  void consumeMaileage(int num) async {
-    if (await ApiService.patchMileage(_user!.userId, num)) {
+  void consumeMileage(int menuId) async {
+    if (await ApiService.consumeMileage(_user!.token, menuId)) {
       getMaileage();
     } else {
       print('마일리지 연동 실패');
@@ -56,8 +56,16 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updatePlugId(int plugId) {
+  void gainMileage() async {
+    if (await ApiService.testPatchMileage(_user!.userId, 1, 100)) {
+      getMaileage();
+    } else {
+      print('마일리지 추가 실패');
+    }
+  }
+
+  /*void updatePlugId(int plugId) {
     _plugId = plugId;
     notifyListeners();
-  }
+  }*/
 }

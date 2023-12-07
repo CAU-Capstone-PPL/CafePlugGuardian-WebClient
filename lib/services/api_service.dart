@@ -161,9 +161,9 @@ class ApiService {
     return alertInstance;
   }
 
-  //get 마일리지
-  static Future<int> getMileage(String token) async {
-    final url = Uri.parse('$baseUrl/mileage');
+  //마일리지 확인
+  static Future<int> getMileage(String token, int plugId) async {
+    final url = Uri.parse('$baseUrl/mileage?plugId=$plugId');
     final response = await http.get(url, headers: {'Authorization': token});
 
     if (response.statusCode != 200) {
@@ -172,21 +172,37 @@ class ApiService {
       throw Exception(errorMessage);
     }
     final dynamic json = jsonDecode(response.body);
-    return json['mileage'];
+    return json['result']['mileage'];
   }
 
-  //patch 마일리지
-  static Future<bool> patchMileage(int userId, int mileage) async {
-    final url = Uri.parse('$baseUrl/url 미정');
-    final body = {
-      'userId': userId,
-      'maleage': mileage,
-    };
+  //마일리지 사용
+  static Future<bool> consumeMileage(String token, int menuId) async {
+    final url = Uri.parse('$baseUrl/mileage?menuId=$menuId');
+
     final response = await http.patch(url,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: body);
+        headers: {'Content-Type': 'application/json', 'Authorization': token});
+
+    if (response.statusCode != 200) {
+      final dynamic json = jsonDecode(response.body);
+      final String errorMessage = json['message'] ?? 'An error occurred';
+      throw Exception(errorMessage);
+    }
+    final dynamic json = jsonDecode(response.body);
+    return json['success'];
+  }
+
+  //마일리지 부여 테스트
+  static Future<bool> testPatchMileage(
+      int userId, int cafeId, int mileage) async {
+    final url = Uri.parse('$baseUrl/mileage/testGain');
+    final body = {
+      "userId": userId,
+      "cafeId": cafeId,
+      "mileage": mileage,
+    };
+
+    final response = await http.patch(url,
+        headers: {'Content-Type': 'application/json'}, body: jsonEncode(body));
 
     if (response.statusCode != 200) {
       final dynamic json = jsonDecode(response.body);

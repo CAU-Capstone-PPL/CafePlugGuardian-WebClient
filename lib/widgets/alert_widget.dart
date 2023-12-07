@@ -46,16 +46,85 @@ class _AlertState extends State<Alert> {
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10,
-              horizontal: 20,
-            ),
-            child: NotAllowAlert(
-              plugId: widget.plugId,
-              plugOffTime: widget.plugOffTime,
-              plugOffLogId: widget.plugOffLogId,
-            ),
-          ),
+              padding: const EdgeInsets.symmetric(
+                vertical: 10,
+                horizontal: 20,
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Row(
+                        children: [
+                          Image(
+                            image: AssetImage('assets/Blocking.png'),
+                            width: 20,
+                          ),
+                          SizedBox(width: 10),
+                          BoldText(content: '비허용 기기 연결')
+                        ],
+                      ),
+                      CaptionText(
+                          content:
+                              '${widget.plugOffTime.date.toString()} ${widget.plugOffTime.time.toString()}'),
+                    ],
+                  ),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: NormalText(
+                            content:
+                                '현재 연결된 기기가 비허용 기기라서 전력이 차단되었습니다. 연결된 기기를 제거하고 연결 버튼을 눌러주세요.'),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomSmallButton(
+                          content: '피드백',
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const HeadingText(content: '피드백'),
+                                content: const SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [],
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: const Text('확인'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
+                      CustomSmallButton(
+                        content: '다시 연결',
+                        onPressed: () async {
+                          try {
+                            await ApiService.patchCustomerCheck(
+                                widget.plugOffLogId);
+                            await ApiService.patchPlugOn(widget.plugId);
+                            Navigator.pop(context);
+                          } catch (e) {
+                            final errorMessage = e.toString();
+                            _showErrorSnackBar(context, errorMessage);
+                          }
+                        },
+                      )
+                    ],
+                  )
+                ],
+              )),
         ),
       );
     }
@@ -155,7 +224,7 @@ class PowerExhaustAlert extends StatelessWidget {
   }
 }
 
-class NotAllowAlert extends StatelessWidget {
+/*class NotAllowAlert extends StatelessWidget {
   int plugId;
   DateTimeModel plugOffTime;
   int plugOffLogId;
@@ -167,82 +236,9 @@ class NotAllowAlert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Row(
-              children: [
-                Image(
-                  image: AssetImage('assets/Blocking.png'),
-                  width: 20,
-                ),
-                SizedBox(width: 10),
-                BoldText(content: '비허용 기기 연결')
-              ],
-            ),
-            CaptionText(
-                content:
-                    '${plugOffTime.date.toString()} ${plugOffTime.time.toString()}'),
-          ],
-        ),
-        const Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: NormalText(
-                  content:
-                      '현재 연결된 기기가 비허용 기기라서 전력이 차단되었습니다. 연결된 기기를 제거하고 연결 버튼을 눌러주세요.'),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CustomSmallButton(
-                content: '피드백',
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: const HeadingText(content: '피드백'),
-                      content: const SingleChildScrollView(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [],
-                        ),
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text('확인'),
-                        ),
-                      ],
-                    ),
-                  );
-                }),
-            CustomSmallButton(
-              content: '다시 연결',
-              onPressed: () {
-                try {
-                  ApiService.patchCustomerCheck(plugOffLogId);
-                  ApiService.patchPlugOn(plugId);
-                  context.read<AlertProvider>().updateAlert(plugId);
-                  Navigator.pop(context);
-                } catch (e) {
-                  final errorMessage = e.toString();
-                  _showErrorSnackBar(context, errorMessage);
-                }
-              },
-            )
-          ],
-        )
-      ],
-    );
+    return 
   }
-}
+}*/
 
 void _showErrorSnackBar(BuildContext context, String errorMessage) {
   ScaffoldMessenger.of(context).showSnackBar(

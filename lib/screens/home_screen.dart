@@ -255,7 +255,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const NormalText(content: '실시간 전력량'),
+                              const NormalText(content: '실시간전력량'),
                               const SizedBox(width: 10),
                               BoldText(
                                   content: context

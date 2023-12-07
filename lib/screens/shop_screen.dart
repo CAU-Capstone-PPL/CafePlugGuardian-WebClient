@@ -169,7 +169,6 @@ class _ShopScreenState extends State<ShopScreen> {
                                           _showErrorSnackBar(
                                               context, errorMessage);
                                         }
-                                        Navigator.of(context).pop();
                                       },
                                       child: const Text('구매'),
                                     ),

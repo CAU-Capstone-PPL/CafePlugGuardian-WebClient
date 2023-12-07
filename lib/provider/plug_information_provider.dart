@@ -20,7 +20,7 @@ class PlugInformationProvider extends ChangeNotifier {
 
   final bool _test = true;
 
-  PlugDetailModel? get plug => _plug;
+  PlugDetailModel get plug => _plug;
 
   void updatePlug(int id) async {
     _plug = await ApiService.getPlugById(id);

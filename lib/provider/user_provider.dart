@@ -42,13 +42,17 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateMaileage(int num) {
-    _maileage = num;
+  void getMaileage() async {
+    _maileage = await ApiService.getMileage(_user!.token);
     notifyListeners();
   }
 
-  void getMaileage(int userId) async {
-    _maileage = await ApiService.getMileage(userId);
+  void consumeMaileage(int num) async {
+    if (await ApiService.patchMileage(_user!.userId, num)) {
+      getMaileage();
+    } else {
+      print('마일리지 연동 실패');
+    }
     notifyListeners();
   }
 

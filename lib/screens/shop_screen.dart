@@ -23,9 +23,7 @@ class _ShopScreenState extends State<ShopScreen> {
     super.initState();
     menuList = ApiService.getMenuList(widget.plugId);
     //menuList = ApiTest.testGetMenu();
-    context
-        .read<UserProvider>()
-        .getMaileage(context.read<UserProvider>().user!.userId);
+    context.read<UserProvider>().getMaileage();
   }
 
   void _showErrorSnackBar(BuildContext context, String errorMessage) {
@@ -156,7 +154,7 @@ class _ShopScreenState extends State<ShopScreen> {
                                         }
                                         context
                                             .read<UserProvider>()
-                                            .updateMaileage(context
+                                            .consumeMaileage(context
                                                     .read<UserProvider>()
                                                     .mailleage -
                                                 menu.price);

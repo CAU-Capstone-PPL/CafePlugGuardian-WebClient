@@ -162,9 +162,9 @@ class ApiService {
   }
 
   //get 마일리지
-  static Future<int> getMileage(int userId) async {
-    final url = Uri.parse('$baseUrl/url 미정');
-    final response = await http.get(url);
+  static Future<int> getMileage(String token) async {
+    final url = Uri.parse('$baseUrl/mileage');
+    final response = await http.get(url, headers: {'Authorization': token});
 
     if (response.statusCode != 200) {
       final dynamic json = jsonDecode(response.body);

@@ -99,6 +99,11 @@ If you use it as a member, you can use the mileage service and order menus throu
 
 7. Run the Application
 
+#### If you want to change the API URL address to your backend server address, follow these instructions.
+  - lib/services/api_services.dart file has a baseUrl variable. Change that variable to 'your URL address/api'. 
+  
+  - ex) http://yourServerAddress/api
+
 ## License
 
 This program is licensed under MIT
